@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.EventSystems;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -14,7 +13,10 @@ public class PlayerController : MonoBehaviour {
 
 	private Vector3 MoveVector;
 	private Rigidbody rb;
-	// Use this for initialization
+
+	private float[] array = new float[10];
+	private float sum = 0.0f;
+	private int idx = 0;
 
 	private List<GameItems> inventory;
 
@@ -22,11 +24,15 @@ public class PlayerController : MonoBehaviour {
 		rb = gameObject.GetComponent<Rigidbody> ();
 		rb.maxAngularVelocity = terminalRotationSpeed;
 
+		for (int i = 0; i < 10; i++)
+			array [i] = 0.0f;
+
 		inventory = new List<GameItems> ();
 	}
-	
-	// Update is called once per frame
+
 	void Update () {
+		/* Rotate LEFT and RIGHT */
+		/*-----------------------------------------------*/
 		MoveVector = PoolRightInput ();
 		Vector3 v = MoveVector * moveSpeed;
 		rb.AddRelativeForce (v*20);
@@ -35,24 +41,41 @@ public class PlayerController : MonoBehaviour {
 			rb.velocity = rb.velocity.normalized * 0.8f * norm;
 		if (MoveVector == Vector3.zero)
 			rb.velocity = Vector3.zero;
-		gameObject.transform.Rotate (new Vector3(0,jsR.Turn ()*1.3f,0));
+		gameObject.transform.Rotate (new Vector3(0,jsR.Turn ()*1.3f,0),Space.World);
+		/*-----------------------------------------------*/
+
+
+		/* Rotate UP and Down*/
+		/*-----------------------------------------------*/
+		Vector3 Accel = Input.acceleration;
+		float angle = 0;
+		if (Accel != Vector3.zero)
+			angle = Mathf.Atan2 (Accel.z, -Accel.y) * Mathf.Rad2Deg;
+		sum += angle - array [idx];
+		array [idx] = angle;
+		idx = (idx + 1) % 10;
+
+		Quaternion Identity = transform.rotation;
+		Quaternion Rot = Identity;
+		Vector3 euler = Rot.eulerAngles;
+		euler.x = -sum/10.0f;
+		transform.rotation = Quaternion.Euler(euler);
+		/*-----------------------------------------------*/
 
 		if(Input.GetMouseButtonDown(0)){
 			ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
 			if(Physics.Raycast(ray, out hit, Mathf.Infinity)){
-				if (!UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject ()) {
-					GameObject clickObj = hit.transform.gameObject;
-					GameItems obj = clickObj.GetComponent<GameItems> ();
-					if (obj != null) {
-						Vector3 objloc = clickObj.transform.position;
-						float distance = (transform.position - objloc).magnitude;
-						if (distance <= obj.DistanceThreshold) {
-							obj.ClickInteraction ();
-							if (obj.collectable) {
-								inventory.Add (obj);
-								Destroy (clickObj);
-							}
+				GameObject clickObj = hit.transform.gameObject;
+				GameItems obj = clickObj.GetComponent<GameItems>();
+				if (obj != null) {
+					Vector3 objloc = clickObj.transform.position;
+					float distance = (transform.position - objloc).magnitude;
+					if (distance <= obj.DistanceThreshold) {
+						obj.ClickInteraction ();
+						if (obj.collectable) {
+							inventory.Add (obj);
+							Destroy (clickObj);
 						}
 					}
 				}
