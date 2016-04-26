@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.EventSystems;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -40,16 +41,18 @@ public class PlayerController : MonoBehaviour {
 			ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
 			if(Physics.Raycast(ray, out hit, Mathf.Infinity)){
-				GameObject clickObj = hit.transform.gameObject;
-				GameItems obj = clickObj.GetComponent<GameItems>();
-				if (obj != null) {
-					Vector3 objloc = clickObj.transform.position;
-					float distance = (transform.position - objloc).magnitude;
-					if (distance <= obj.distanceThreshold) {
-						obj.ClickInteraction ();
-						if (obj.collectable) {
-							inventory.Add (obj);
-							Destroy (clickObj);
+				if (!UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject ()) {
+					GameObject clickObj = hit.transform.gameObject;
+					GameItems obj = clickObj.GetComponent<GameItems> ();
+					if (obj != null) {
+						Vector3 objloc = clickObj.transform.position;
+						float distance = (transform.position - objloc).magnitude;
+						if (distance <= obj.DistanceThreshold) {
+							obj.ClickInteraction ();
+							if (obj.collectable) {
+								inventory.Add (obj);
+								Destroy (clickObj);
+							}
 						}
 					}
 				}

@@ -11,10 +11,14 @@ public abstract class GameItems : MonoBehaviour {
 
 	public Vector3 zoomCameraLocation;
 
-	public float distanceThreshold;
+	protected float distanceThreshold = 4.0f;
+	public float DistanceThreshold {
+		get {
+			return distanceThreshold;
+		}
+	}
 
-	public
-	void ClickInteraction () {
+	public void ClickInteraction () {
 		if (interactable) {
 			Interaction ();
 			if (postProcessFlag) {

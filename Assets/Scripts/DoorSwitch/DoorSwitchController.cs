@@ -8,7 +8,6 @@ public class DoorSwitchController : GameItems {
 	private int state = 0;
 
 	void Start () {
-		distanceThreshold = 2.0f;
 		interactable = true;
 	}
 

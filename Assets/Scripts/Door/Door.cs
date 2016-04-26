@@ -13,7 +13,6 @@ public class Door : GameItems {
 	void Start () {
 		// TODO
 		interactable = true;
-		distanceThreshold = 2.0f;
 		openFlag = 1.0f;
 	}
 	
