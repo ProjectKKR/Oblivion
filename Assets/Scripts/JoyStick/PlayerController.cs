@@ -47,6 +47,10 @@ public class PlayerController : MonoBehaviour {
 					float distance = (transform.position - objloc).magnitude;
 					if (distance <= obj.distanceThreshold) {
 						obj.ClickInteraction ();
+						if (obj.collectable) {
+							inventory.Add (obj);
+							Destroy (clickObj);
+						}
 					}
 				}
 			}
@@ -54,7 +58,7 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	private Vector3 PoolRightInput(){
-		Vector3 dir = Vector3.zero;
+		Vector3 dir = new Vector3();
 		dir.x = jsL.Horizontal ();
 		dir.z = jsL.Vertical ();
 		if (dir.magnitude > 1)

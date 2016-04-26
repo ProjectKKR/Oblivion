@@ -13,6 +13,7 @@ public class VirtualJoystick_left : MonoBehaviour, IDragHandler, IPointerUpHandl
 	}
 	public virtual void OnDrag(PointerEventData ped){
 		Vector2 pos;
+		Debug.Log ("CLicked");
 		if (RectTransformUtility.ScreenPointToLocalPointInRectangle (bgImg.rectTransform,
 																	 ped.position,
 																	 ped.pressEventCamera,
