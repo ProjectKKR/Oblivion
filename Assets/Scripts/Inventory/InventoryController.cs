@@ -5,7 +5,6 @@ using System.Collections;
 
 
 public class InventoryController : MonoBehaviour, IPointerDownHandler {
-	private RawImage invButton;
 	private RawImage invPoint;
 	public GameObject invPlane;
 	private int scale = 6;
@@ -13,7 +12,6 @@ public class InventoryController : MonoBehaviour, IPointerDownHandler {
 	private bool opened = false;
 
 	void Start () {
-		invButton = GetComponent<RawImage> ();
 		invPoint = transform.GetChild (0).GetComponent<RawImage> ();
 	}
 

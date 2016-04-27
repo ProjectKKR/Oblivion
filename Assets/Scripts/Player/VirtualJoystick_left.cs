@@ -4,6 +4,7 @@ using UnityEngine.EventSystems;
 using System.Collections;
 
 public class VirtualJoystick_left : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointerDownHandler {
+
 	private Image bgImg;
 	private Image jsImg; // JoystickImg
 	private Vector3 inputVector;
