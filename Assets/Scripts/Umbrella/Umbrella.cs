@@ -13,6 +13,7 @@ public class Umbrella : GameItems {
 		
 	}
 
+
 	protected override void Interaction () {
 		// TODO
 	}

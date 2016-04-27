@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class DigitalClock : MonoBehaviour {
+public class DigitalClock : GameItems {
 
 	private Text clockText;
 
@@ -17,4 +17,18 @@ public class DigitalClock : MonoBehaviour {
 
 		clockText.text = time.ToString("hh:mm"); 
 	}
+
+
+	protected override bool EquippedItemCheck(GameItems equipped) {
+		return equipped.GetType ().Equals (Umbrella);
+	}
+
+	protected override void Interaction() {
+		;
+	}
+
+	protected override void PostProcess() {
+		;
+	}
+
 }

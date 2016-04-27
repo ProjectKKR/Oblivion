@@ -22,9 +22,12 @@ public class PlayerController : MonoBehaviour {
 	private float sum = 0.0f;
 	private int idx = 0;
 
+	private GameItems equipped;
+
 	private List<GameItems> inventory;
 
 	void Start () {
+		equipped = null;
 		nowTouchUI = false;
 		rb = gameObject.GetComponent<Rigidbody> ();
 		rb.maxAngularVelocity = terminalRotationSpeed;
@@ -96,7 +99,7 @@ public class PlayerController : MonoBehaviour {
 						objloc.y = myloc.y = 0;
 						float distance = (myloc - objloc).magnitude;
 						if (distance <= obj.DistanceThreshold) {
-							obj.ClickInteraction ();
+							obj.ClickInteraction (equipped);
 							if (obj.collectable) {
 								inventory.Add (obj);
 								Destroy (clickObj);

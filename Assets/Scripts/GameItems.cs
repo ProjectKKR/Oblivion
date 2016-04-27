@@ -18,15 +18,18 @@ public abstract class GameItems : MonoBehaviour {
 		}
 	}
 
-	public void ClickInteraction () {
+	public void ClickInteraction (GameItems equipped) {
 		if (interactable) {
-			Interaction ();
+			if (EquippedItemCheck (equipped)) {
+				Interaction ();
+			}
 			if (postProcessFlag) {
 				PostProcess ();
 			}
 		}
 	}
 
+	protected abstract bool EquippedItemCheck (GameItems equipped);
 	protected abstract void Interaction ();
 	protected abstract void PostProcess ();
 }
