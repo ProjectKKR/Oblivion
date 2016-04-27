@@ -2,22 +2,21 @@
 using System.Collections;
 
 public class LightSwitchController : GameItems {
-
+	public LightController LC;
 	public GameObject switchAxis;
 
 	private float angleOn = (float)(-10);
 	private float angleOff = (float)(+10);
-	private int state = 0;
+
+	private bool state;
 
 	void Start () {
 		interactable = true;
 	}
 
 	protected override void Interaction () {
-		Debug.Log ("CLICK!");
-		state = 1 - state;
-		if (state==1) switchAxis.transform.Rotate (new Vector3 (0, 0, angleOn));
-		if (state==0) switchAxis.transform.Rotate (new Vector3 (0, 0, angleOff));
+		state = !state;
+		LC.Light (state);
 	}
 
 	protected override void PostProcess () {

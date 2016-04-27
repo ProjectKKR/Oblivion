@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour {
 	private Rigidbody rb;
 
 	private bool nowTouchUI;
+	private float pcUpDownAngle;
 
 	private float[] array = new float[10];
 	private float sum = 0.0f;
@@ -30,6 +31,7 @@ public class PlayerController : MonoBehaviour {
 
 		for (int i = 0; i < 10; i++)
 			array [i] = 0.0f;
+		pcUpDownAngle = 0.0f;
 
 		inventory = new List<GameItems> ();
 	}
@@ -50,12 +52,18 @@ public class PlayerController : MonoBehaviour {
 			rb.velocity = rb.velocity.normalized * 0.8f * norm;
 		if (MoveVector == Vector3.zero)
 			rb.velocity = Vector3.zero;
-		gameObject.transform.Rotate (new Vector3(0,jsR.Turn ()*1.3f,0),Space.World);
+		gameObject.transform.Rotate (new Vector3(0,jsR.Turn ()*1.6f,0),Space.World);
 		/*-----------------------------------------------*/
 
 
 		/* Rotate UP and Down*/
 		/*-----------------------------------------------*/
+		if (Input.GetKey (KeyCode.J)) {
+			pcUpDownAngle -= 1.0f;
+		} else if (Input.GetKey (KeyCode.K)) {
+			pcUpDownAngle += 1.0f;
+		}
+
 		Vector3 Accel = Input.acceleration;
 		float angle = 0;
 		if (Accel != Vector3.zero)
@@ -67,7 +75,7 @@ public class PlayerController : MonoBehaviour {
 		Quaternion Identity = transform.rotation;
 		Quaternion Rot = Identity;
 		Vector3 euler = Rot.eulerAngles;
-		euler.x = -sum/10.0f;
+		euler.x = -sum/10.0f - pcUpDownAngle;
 		if (euler.x < -80)
 			euler.x = -80;
 		if (euler.x > 80)
