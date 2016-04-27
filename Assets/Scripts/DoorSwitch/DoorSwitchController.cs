@@ -11,6 +11,11 @@ public class DoorSwitchController : GameItems {
 		interactable = true;
 	}
 
+
+	protected override bool EquippedItemCheck (GameItems equipped) {
+		return true;
+	}
+
 	protected override void Interaction () {
 		Debug.Log ("CLICK!");
 		state = 1 - state;

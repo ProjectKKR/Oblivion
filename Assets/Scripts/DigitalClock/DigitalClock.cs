@@ -1,20 +1,18 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 using System.Collections;
 
-public class DigitalClock : MonoBehaviour {
+public class DigitalClock : GameItems {
 
-	private Text clockText;
-
-	// Use this for initialization
-	void Start () {
-		clockText = GetComponent<Text> ();
+	protected override bool EquippedItemCheck(GameItems equipped) {
+		Debug.Log ("asdfasdfasdf");
+		return equipped.GetType ().Equals (typeof(Umbrella));
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		System.DateTime time = System.DateTime.Now;
 
-		clockText.text = time.ToString("hh:mm"); 
+	protected override void Interaction() {
+		transform.eulerAngles = new Vector3 (-50, 0, 0);
+	}
+
+	protected override void PostProcess() {
+		;
 	}
 }

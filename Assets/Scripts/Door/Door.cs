@@ -16,7 +16,11 @@ public class Door : GameItems {
 		openFlag = 1.0f;
 	}
 	
-	// Update is called once per frame
+
+	protected override bool EquippedItemCheck (GameItems equipped) {
+		return true;
+	}
+
 	protected override void Interaction () {
 		axis.transform.Rotate (new Vector3 (0, 70.0f * openFlag, 0));
 		openFlag = - openFlag;

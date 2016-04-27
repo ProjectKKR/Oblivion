@@ -13,6 +13,10 @@ public class Umbrella : GameItems {
 		
 	}
 
+	protected override bool EquippedItemCheck(GameItems equipped) {
+		return true;
+	}
+
 	protected override void Interaction () {
 		// TODO
 	}
