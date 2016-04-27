@@ -99,7 +99,7 @@ public class PlayerController : MonoBehaviour {
 						objloc.y = myloc.y = 0;
 						float distance = (myloc - objloc).magnitude;
 						if (distance <= obj.DistanceThreshold) {
-							obj.ClickInteraction (equipped);
+							obj.ClickInteraction (null);
 							if (obj.collectable) {
 								inventory.Add (obj);
 								Destroy (clickObj);

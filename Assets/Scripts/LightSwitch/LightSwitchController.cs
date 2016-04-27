@@ -15,7 +15,7 @@ public class LightSwitchController : GameItems {
 	}
 
 
-	protected override void EquippedItemCheck (GameItems equipped) {
+	protected override bool EquippedItemCheck (GameItems equipped) {
 		return true;
 	}
 
