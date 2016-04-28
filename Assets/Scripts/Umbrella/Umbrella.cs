@@ -5,7 +5,7 @@ public class Umbrella : GameItems {
 	
 	// Use this for initialization
 	void Start () {
-		collectable = true;
+		
 	}
 	
 	// Update is called once per frame

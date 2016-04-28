@@ -8,7 +8,6 @@ public class DoorSwitchController : GameItems {
 
 	void Start () {
 		state = false;
-		interactable = true;
 	}
 
 

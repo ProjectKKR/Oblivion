@@ -9,7 +9,7 @@ public class LightSwitchController : GameItems {
 	private bool state;
 
 	void Start () {
-		state = false;
+		state = true;
 		interactable = true;
 	}
 
@@ -20,7 +20,7 @@ public class LightSwitchController : GameItems {
 
 	protected override void Interaction () {
 		state = !state;
-		switchAxis.transform.eulerAngles = new Vector3(0, 0, state? 0 : -angle);
+		switchAxis.transform.eulerAngles = new Vector3(0, state? 0 : angle, 0);
 		LC.Light (state);
 	}
 
