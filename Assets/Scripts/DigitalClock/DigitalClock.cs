@@ -4,8 +4,7 @@ using System.Collections;
 public class DigitalClock : GameItems {
 
 	protected override bool EquippedItemCheck(GameItems equipped) {
-		Debug.Log ("asdfasdfasdf");
-		return equipped.GetType ().Equals (typeof(Umbrella));
+		return true;
 	}
 
 	protected override void Interaction() {

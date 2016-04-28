@@ -3,11 +3,11 @@ using System.Collections;
 
 public class DoorSwitchController : GameItems {
 	public GameObject switchAxis;
-	private float angleOn = (float)(-25);
-	private float angleOff = (float)(+25);
-	private int state = 0;
+	private const float angle = 25;
+	private bool state;
 
 	void Start () {
+		state = false;
 		interactable = true;
 	}
 
@@ -17,10 +17,8 @@ public class DoorSwitchController : GameItems {
 	}
 
 	protected override void Interaction () {
-		Debug.Log ("CLICK!");
-		state = 1 - state;
-		if (state==1) switchAxis.transform.Rotate (new Vector3 (0, 0, angleOn));
-		if (state==0) switchAxis.transform.Rotate (new Vector3 (0, 0, angleOff));
+		state = !state;
+		switchAxis.transform.eulerAngles = new Vector3(0, 0, state? -angle : 0);
 	}
 
 	protected override void PostProcess () {
