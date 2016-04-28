@@ -5,12 +5,11 @@ public class LightSwitchController : GameItems {
 	public LightController LC;
 	public GameObject switchAxis;
 
-	private float angleOn = (float)(-10);
-	private float angleOff = (float)(+10);
-
+	private const float angle = 10;
 	private bool state;
 
 	void Start () {
+		state = false;
 		interactable = true;
 	}
 
@@ -21,6 +20,7 @@ public class LightSwitchController : GameItems {
 
 	protected override void Interaction () {
 		state = !state;
+		switchAxis.transform.eulerAngles = new Vector3(0, 0, state? 0 : -angle);
 		LC.Light (state);
 	}
 
