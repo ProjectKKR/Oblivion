@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class PlayerController : MonoBehaviour {
+	public GameObject PauseMenu;
 	public VirtualJoystick_left jsL;
 	public VirtualJoystick_right jsR;
 	public float moveSpeed;
@@ -41,69 +42,68 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void Update () {
-		if (Input.GetKey(KeyCode.Escape))
-		{
-			SceneManager.LoadScene ("Menu");
-		}
-
-		/* Rotate LEFT and RIGHT */
-		/*-----------------------------------------------*/
-		MoveVector = PoolRightInput ();
-		Vector3 v = MoveVector * moveSpeed;
-		rb.AddRelativeForce (v*20);
-		float norm = rb.velocity.magnitude;
-		if (rb.velocity.magnitude > 0.8f*norm)
-			rb.velocity = rb.velocity.normalized * 0.8f * norm;
-		if (MoveVector == Vector3.zero)
+		if (PauseMenu.activeInHierarchy) {
 			rb.velocity = Vector3.zero;
-		gameObject.transform.Rotate (new Vector3(0,jsR.Turn ()*2.3f,0),Space.World);
-		/*-----------------------------------------------*/
+		} else{
+			/* Rotate LEFT and RIGHT */
+			/*-----------------------------------------------*/
+			MoveVector = PoolRightInput ();
+			Vector3 v = MoveVector * moveSpeed;
+			rb.AddRelativeForce (v * 20);
+			float norm = rb.velocity.magnitude;
+			if (rb.velocity.magnitude > 0.8f * norm)
+				rb.velocity = rb.velocity.normalized * 0.8f * norm;
+			if (MoveVector == Vector3.zero)
+				rb.velocity = Vector3.zero;
+			gameObject.transform.Rotate (new Vector3 (0, jsR.Turn () * 2.3f, 0), Space.World);
+			/*-----------------------------------------------*/
 
 
-		/* Rotate UP and Down*/
-		/*-----------------------------------------------*/
-		if (Input.GetKey (KeyCode.J)) {
-			pcUpDownAngle -= 1.0f;
-		} else if (Input.GetKey (KeyCode.K)) {
-			pcUpDownAngle += 1.0f;
-		}
+			/* Rotate UP and Down*/
+			/*-----------------------------------------------*/
+			if (Input.GetKey (KeyCode.J)) {
+				pcUpDownAngle -= 1.0f;
+			} else if (Input.GetKey (KeyCode.K)) {
+				pcUpDownAngle += 1.0f;
+			}
 
-		Vector3 Accel = Input.acceleration;
-		float angle = 0;
-		if (Accel != Vector3.zero)
-			angle = Mathf.Atan2 (Accel.z, -Accel.y) * Mathf.Rad2Deg;
-		sum += angle - array [idx];
-		array [idx] = angle;
-		idx = (idx + 1) % 10;
+			Vector3 Accel = Input.acceleration;
+			float angle = 0;
+			if (Accel != Vector3.zero)
+				angle = Mathf.Atan2 (Accel.z, -Accel.y) * Mathf.Rad2Deg;
+			sum += angle - array [idx];
+			array [idx] = angle;
+			idx = (idx + 1) % 10;
 
-		Quaternion Identity = transform.rotation;
-		Quaternion Rot = Identity;
-		Vector3 euler = Rot.eulerAngles;
-		euler.x = -sum/10.0f - pcUpDownAngle;
-		if (euler.x < -80)
-			euler.x = -80;
-		if (euler.x > 80)
-			euler.x = 80;
-		transform.rotation = Quaternion.Euler(euler);
-		/*-----------------------------------------------*/
+			Quaternion Identity = transform.rotation;
+			Quaternion Rot = Identity;
+			Vector3 euler = Rot.eulerAngles;
+			euler.x = -sum / 10.0f - pcUpDownAngle;
+			if (euler.x < -80)
+				euler.x = -80;
+			if (euler.x > 80)
+				euler.x = 80;
+			transform.rotation = Quaternion.Euler (euler);
+			/*-----------------------------------------------*/
 
-		if(Input.GetMouseButtonDown(0)){
-			ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-			if(Physics.Raycast(ray, out hit, Mathf.Infinity)){
-				if (!IsPointerOverUIObject()) {
-					GameObject clickObj = hit.transform.gameObject;
-					GameItems obj = clickObj.GetComponent<GameItems> ();
-					if (obj != null) {
-						Vector3 objloc = clickObj.transform.position;
-						Vector3 myloc = transform.position;
-						// Projection to X-Z, Ignore Y value
-						objloc.y = myloc.y = 0;
-						float distance = (myloc - objloc).magnitude;
-						if (distance <= obj.DistanceThreshold) {
-							obj.ClickInteraction (null);
-							if (obj.collectable) {
-								inventory.Add (obj);
-								Destroy (clickObj);
+			if (Input.GetMouseButtonDown (0)) {
+				ray = Camera.main.ScreenPointToRay (Input.mousePosition);
+				if (Physics.Raycast (ray, out hit, Mathf.Infinity)) {
+					if (!IsPointerOverUIObject ()) {
+						GameObject clickObj = hit.transform.gameObject;
+						GameItems obj = clickObj.GetComponent<GameItems> ();
+						if (obj != null) {
+							Vector3 objloc = clickObj.transform.position;
+							Vector3 myloc = transform.position;
+							// Projection to X-Z, Ignore Y value
+							objloc.y = myloc.y = 0;
+							float distance = (myloc - objloc).magnitude;
+							if (distance <= obj.DistanceThreshold) {
+								obj.ClickInteraction (null);
+								if (obj.collectable) {
+									inventory.Add (obj);
+									Destroy (clickObj);
+								}
 							}
 						}
 					}

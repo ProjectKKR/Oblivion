@@ -3,17 +3,13 @@ using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class StartController : MonoBehaviour {
-
+	public GameObject SubStart;
 	// Use this for initialization
 	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+		SubStart.SetActive (false);
 	}
 	public void LoadOblivion(){
-		SceneManager.LoadScene ("Oblivion");
+		SubStart.SetActive (true);
+		//SceneManager.LoadScene ("Oblivion");
 	}
 }
