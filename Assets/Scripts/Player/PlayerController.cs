@@ -17,7 +17,6 @@ public class PlayerController : MonoBehaviour {
 	private Vector3 MoveVector;
 	private Rigidbody rb;
 
-	private bool nowTouchUI;
 	private float pcUpDownAngle;
 
 	private float[] array = new float[10];
@@ -30,7 +29,6 @@ public class PlayerController : MonoBehaviour {
 
 	void Start () {
 		equipped = null;
-		nowTouchUI = false;
 		rb = gameObject.GetComponent<Rigidbody> ();
 		rb.maxAngularVelocity = terminalRotationSpeed;
 
