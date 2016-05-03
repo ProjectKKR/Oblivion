@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -42,7 +43,7 @@ public class PlayerController : MonoBehaviour {
 	void Update () {
 		if (Input.GetKey(KeyCode.Escape))
 		{
-			Application.Quit();
+			SceneManager.LoadScene ("Menu");
 		}
 
 		/* Rotate LEFT and RIGHT */
