@@ -56,7 +56,7 @@ public class PlayerController : MonoBehaviour {
 			rb.velocity = rb.velocity.normalized * 0.8f * norm;
 		if (MoveVector == Vector3.zero)
 			rb.velocity = Vector3.zero;
-		gameObject.transform.Rotate (new Vector3(0,jsR.Turn ()*1.6f,0),Space.World);
+		gameObject.transform.Rotate (new Vector3(0,jsR.Turn ()*2.3f,0),Space.World);
 		/*-----------------------------------------------*/
 
 
