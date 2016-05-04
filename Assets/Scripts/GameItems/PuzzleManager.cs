@@ -27,14 +27,28 @@ public class PuzzleManager : GameItems {
 		}
 	}
 
+	void Update(){
+		animating = false;
+		for (int i = 0; i < this.gameObject.transform.GetChild (1).transform.childCount; i++) {
+			PuzzlePieceController ppc = this.gameObject.transform.GetChild (1).transform.GetChild(i). GetComponent<PuzzlePieceController> ();
+			print (ppc);
+			if (ppc == null)
+				continue;
+			animating = animating | ppc.moveFlag;
+		}
+	}
+
 	public int Movable(GameObject piece){
+		if (piece == null)
+			return 0;
 		if (animating)
 			return 0;
+		animating = true;
 		int direction=0;
 		currX = -1; currY = -1;
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
-				if (pieces [i, j] == null)
+				if (blankX==i && blankY==j)
 					continue;
 				if (piece.Equals(pieces [i, j].gameObject)) {
 					currX = i;
@@ -48,16 +62,17 @@ public class PuzzleManager : GameItems {
 
 		// Can move Left
 		else if (currX == blankX && currY - 1 == blankY)
-			direction = 2;
+			direction = 3;
 
 		// Can move Up
 		else if (currX - 1 == blankX && currY == blankY)
-			direction = 3;
+			direction = 4;
 
 		// Can move Down
 		else if (currX + 1 == blankX && currY == blankY)
-			direction = 4;
-		animating = true;
+			direction = 2;
+		if (direction == 0)
+			return 0;
 		pieces[blankX, blankY] = pieces[currX, currY];
 		pieces[currX, currY] = null;
 		blankX = currX;

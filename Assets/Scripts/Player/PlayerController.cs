@@ -32,6 +32,7 @@ public class PlayerController : MonoBehaviour {
 	void Start () {
 		equipped = null;
 		zoomFlag = false;
+		WhiteFrame.SetActive (false);
 		rb = gameObject.GetComponent<Rigidbody> ();
 		rb.maxAngularVelocity = terminalRotationSpeed;
 
@@ -110,14 +111,11 @@ public class PlayerController : MonoBehaviour {
 									Vector3 zoomPos = obj.getLocation ();
 									Vector3 Pos = transform.position;
 									Quaternion zoomRot = obj.getRotation ();
-									print (zoomPos);
-									print (Pos);
-									print (zoomPos - Pos);
-									//print (transform.position);
 									TurnOffUI ();
 									zoomFlag = true;
 									transform.Translate (zoomPos - Pos,Space.World);
 									transform.rotation = zoomRot;
+									rb.velocity = Vector3.zero;
 								}
 
 								obj.ClickInteraction (null);
@@ -153,5 +151,10 @@ public class PlayerController : MonoBehaviour {
 	private void TurnOffUI(){
 		WhiteFrame.SetActive (true);
 		UserInterface.SetActive (false);
+	}
+
+	public void TurnOnUI(){
+		WhiteFrame.SetActive (false);
+		UserInterface.SetActive (true);
 	}
 }

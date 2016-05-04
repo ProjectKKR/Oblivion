@@ -3,11 +3,11 @@ using System.Collections;
 
 public class PuzzlePieceController : GameItems {
 	public PuzzleManager manager;
+	public bool moveFlag;
 
 	private int animateCount = 0;
 	private int maxCount = 10;
 	private float animateSpeed = 0.160256f / 10;
-	private bool moveFlag;
 	private int dir;
 	// Use this for initialization
 	void Start () {
@@ -17,14 +17,14 @@ public class PuzzlePieceController : GameItems {
 		moveFlag = false;
 	}
 
-	void FixUpdate () {
-		if (moveFlag)
+	void Update () {
+		if (moveFlag && manager.animating)
 		{
 			if (dir == 1) this.gameObject.transform.Translate(animateSpeed, 0, 0);
 			else if (dir== 3) this.gameObject.transform.Translate(-animateSpeed, 0, 0);
-			else if (dir== 4) this.gameObject.transform.Translate(0, 0, animateSpeed);
 			else if (dir== 2) this.gameObject.transform.Translate(0, 0, -animateSpeed);
-			print (animateCount);
+			else if (dir== 4) this.gameObject.transform.Translate(0, 0, animateSpeed);
+
 			animateCount++;
 			if (animateCount >= maxCount)
 			{
@@ -40,8 +40,12 @@ public class PuzzlePieceController : GameItems {
 	}
 
 	protected override void Interaction () {
-		if (manager.animating)
+		if (manager.animating || moveFlag) {
+			print ("Busy");
+			print (manager.animating);
+			print (moveFlag);
 			return;
+		}
 		dir = manager.Movable (this.gameObject);
 		if (dir == 0)
 			return;
