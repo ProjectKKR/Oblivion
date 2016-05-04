@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour {
 	public Camera mainCamera;
 	public GameObject PauseMenu;
 	public GameObject UserInterface;
+	public GameObject WhiteFrame;
 	public VirtualJoystick_left jsL;
 	public VirtualJoystick_right jsR;
 	public float moveSpeed;
@@ -45,46 +46,50 @@ public class PlayerController : MonoBehaviour {
 		if (PauseMenu.activeInHierarchy) {
 			rb.velocity = Vector3.zero;
 		} else{
-			/* Move Around & Rotate LEFT and RIGHT */
-			/*-----------------------------------------------*/
-			MoveVector = PoolRightInput ();
-			Vector3 v = MoveVector * moveSpeed;
-			rb.AddRelativeForce (v * 20);
-			float norm = rb.velocity.magnitude;
-			if (rb.velocity.magnitude > 0.8f * norm)
-				rb.velocity = rb.velocity.normalized * 0.8f * norm;
-			if (MoveVector == Vector3.zero)
+			if (!zoomFlag) {
+				/* Move Around & Rotate LEFT and RIGHT */
+				/*-----------------------------------------------*/
+				MoveVector = PoolRightInput ();
+				Vector3 v = MoveVector * moveSpeed;
+				rb.AddRelativeForce (v * 20);
+				float norm = rb.velocity.magnitude;
+				if (rb.velocity.magnitude > 0.8f * norm)
+					rb.velocity = rb.velocity.normalized * 0.8f * norm;
+				if (MoveVector == Vector3.zero)
+					rb.velocity = Vector3.zero;
+				gameObject.transform.Rotate (new Vector3 (0, jsR.Turn () * 2.3f, 0), Space.World);
+				/*-----------------------------------------------*/
+
+
+				/* Rotate UP and Down*/
+				/*-----------------------------------------------*/
+				if (Input.GetKey (KeyCode.J)) {
+					pcUpDownAngle -= 1.0f;
+				} else if (Input.GetKey (KeyCode.K)) {
+					pcUpDownAngle += 1.0f;
+				}
+
+				Vector3 Accel = Input.acceleration;
+				float angle = 0;
+				if (Accel != Vector3.zero)
+					angle = Mathf.Atan2 (Accel.z, -Accel.y) * Mathf.Rad2Deg;
+				sum += angle - array [idx];
+				array [idx] = angle;
+				idx = (idx + 1) % 10;
+
+				Quaternion Identity = transform.rotation;
+				Quaternion Rot = Identity;
+				Vector3 euler = Rot.eulerAngles;
+				euler.x = -sum / 10.0f - pcUpDownAngle;
+				if (euler.x < -80)
+					euler.x = -80;
+				if (euler.x > 80)
+					euler.x = 80;
+				transform.rotation = Quaternion.Euler (euler);
+				/*-----------------------------------------------*/
+			} else {
 				rb.velocity = Vector3.zero;
-			gameObject.transform.Rotate (new Vector3 (0, jsR.Turn () * 2.3f, 0), Space.World);
-			/*-----------------------------------------------*/
-
-
-			/* Rotate UP and Down*/
-			/*-----------------------------------------------*/
-			if (Input.GetKey (KeyCode.J)) {
-				pcUpDownAngle -= 1.0f;
-			} else if (Input.GetKey (KeyCode.K)) {
-				pcUpDownAngle += 1.0f;
 			}
-
-			Vector3 Accel = Input.acceleration;
-			float angle = 0;
-			if (Accel != Vector3.zero)
-				angle = Mathf.Atan2 (Accel.z, -Accel.y) * Mathf.Rad2Deg;
-			sum += angle - array [idx];
-			array [idx] = angle;
-			idx = (idx + 1) % 10;
-
-			Quaternion Identity = transform.rotation;
-			Quaternion Rot = Identity;
-			Vector3 euler = Rot.eulerAngles;
-			euler.x = -sum / 10.0f - pcUpDownAngle;
-			if (euler.x < -80)
-				euler.x = -80;
-			if (euler.x > 80)
-				euler.x = 80;
-			transform.rotation = Quaternion.Euler (euler);
-			/*-----------------------------------------------*/
 
 			if (Input.GetMouseButtonDown (0)) {
 				ray = Camera.main.ScreenPointToRay (Input.mousePosition);
@@ -110,7 +115,7 @@ public class PlayerController : MonoBehaviour {
 									print (zoomPos - Pos);
 									//print (transform.position);
 									TurnOffUI ();
-									transform.
+									zoomFlag = true;
 									transform.Translate (zoomPos - Pos,Space.World);
 									transform.rotation = zoomRot;
 								}
@@ -146,6 +151,7 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	private void TurnOffUI(){
+		WhiteFrame.SetActive (true);
 		UserInterface.SetActive (false);
 	}
 }
