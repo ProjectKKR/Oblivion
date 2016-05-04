@@ -5,32 +5,32 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class PlayerController : MonoBehaviour {
+	public Camera mainCamera;
 	public GameObject PauseMenu;
+	public GameObject UserInterface;
 	public VirtualJoystick_left jsL;
 	public VirtualJoystick_right jsR;
 	public float moveSpeed;
 	public float terminalRotationSpeed = 25.0f;
-	public Camera mainCamera;
+	//-----------------------------------------------//
 	private Ray ray;
 	private RaycastHit hit;
-
 	private Vector3 MoveVector;
 	private Rigidbody rb;
-
-	private bool nowTouchUI;
 	private float pcUpDownAngle;
-
 	private float[] array = new float[10];
 	private float sum = 0.0f;
 	private int idx = 0;
+	private bool zoomFlag;
 
 	private GameItems equipped;
 
 	private List<GameItems> inventory;
 
+
 	void Start () {
 		equipped = null;
-		nowTouchUI = false;
+		zoomFlag = false;
 		rb = gameObject.GetComponent<Rigidbody> ();
 		rb.maxAngularVelocity = terminalRotationSpeed;
 
@@ -45,7 +45,7 @@ public class PlayerController : MonoBehaviour {
 		if (PauseMenu.activeInHierarchy) {
 			rb.velocity = Vector3.zero;
 		} else{
-			/* Rotate LEFT and RIGHT */
+			/* Move Around & Rotate LEFT and RIGHT */
 			/*-----------------------------------------------*/
 			MoveVector = PoolRightInput ();
 			Vector3 v = MoveVector * moveSpeed;
@@ -99,6 +99,22 @@ public class PlayerController : MonoBehaviour {
 							objloc.y = myloc.y = 0;
 							float distance = (myloc - objloc).magnitude;
 							if (distance <= obj.DistanceThreshold) {
+
+								/* Zoom IN*/
+								if (obj.zoomable) {
+									Vector3 zoomPos = obj.getLocation ();
+									Vector3 Pos = transform.position;
+									Quaternion zoomRot = obj.getRotation ();
+									print (zoomPos);
+									print (Pos);
+									print (zoomPos - Pos);
+									//print (transform.position);
+									TurnOffUI ();
+									transform.
+									transform.Translate (zoomPos - Pos,Space.World);
+									transform.rotation = zoomRot;
+								}
+
 								obj.ClickInteraction (null);
 								if (obj.collectable) {
 									inventory.Add (obj);
@@ -127,5 +143,9 @@ public class PlayerController : MonoBehaviour {
 		List<RaycastResult> results = new List<RaycastResult>();
 		EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
 		return results.Count > 0;
+	}
+
+	private void TurnOffUI(){
+		UserInterface.SetActive (false);
 	}
 }

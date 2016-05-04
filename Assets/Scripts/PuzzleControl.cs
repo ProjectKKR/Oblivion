@@ -30,8 +30,6 @@ public class PuzzleControl : GameItems
                 pieces[i, j] = GameObject.Find("Piece" + (3 * i + j + 1).ToString());
             }
         }
-		for (int t = 0; t < 1000; t++) {
-		}
     }
 
     void Update()
