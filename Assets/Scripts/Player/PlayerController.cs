@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviour {
 	private Ray ray;
 	private RaycastHit hit;
 	private Vector3 MoveVector;
+	private Vector3 originalPos;
+	private Quaternion originalRot;
 	private Rigidbody rb;
 	private float pcUpDownAngle;
 	private float[] array = new float[10];
@@ -108,14 +110,7 @@ public class PlayerController : MonoBehaviour {
 
 								/* Zoom IN*/
 								if (obj.zoomable) {
-									Vector3 zoomPos = obj.getLocation ();
-									Vector3 Pos = transform.position;
-									Quaternion zoomRot = obj.getRotation ();
-									TurnOffUI ();
-									zoomFlag = true;
-									transform.Translate (zoomPos - Pos,Space.World);
-									transform.rotation = zoomRot;
-									rb.velocity = Vector3.zero;
+									ZoomIn (obj);
 								}
 
 								obj.ClickInteraction (null);
@@ -148,13 +143,36 @@ public class PlayerController : MonoBehaviour {
 		return results.Count > 0;
 	}
 
+	public void ZoomIn(GameItems obj){
+		Vector3 zoomPos = obj.getLocation ();
+		Vector3 Pos = transform.position;
+		Quaternion zoomRot = obj.getRotation ();
+		if (!zoomFlag) {
+			originalPos = transform.position; // save original position
+			originalRot = transform.rotation;
+		}
+		zoomFlag = true;
+		TurnOffUI ();
+		transform.Translate (zoomPos - Pos,Space.World);
+		transform.rotation = zoomRot;
+		rb.velocity = Vector3.zero;
+	}
+
+	public void ZoomOut(){
+		zoomFlag = false;
+		transform.Translate (originalPos - transform.position, Space.World);
+		transform.rotation = originalRot;
+		TurnOnUI ();
+	}
+
 	private void TurnOffUI(){
 		WhiteFrame.SetActive (true);
 		UserInterface.SetActive (false);
 	}
 
-	public void TurnOnUI(){
+	private void TurnOnUI(){
 		WhiteFrame.SetActive (false);
 		UserInterface.SetActive (true);
+
 	}
 }

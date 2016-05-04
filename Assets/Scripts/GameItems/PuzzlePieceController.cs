@@ -41,9 +41,6 @@ public class PuzzlePieceController : GameItems {
 
 	protected override void Interaction () {
 		if (manager.animating || moveFlag) {
-			print ("Busy");
-			print (manager.animating);
-			print (moveFlag);
 			return;
 		}
 		dir = manager.Movable (this.gameObject);
