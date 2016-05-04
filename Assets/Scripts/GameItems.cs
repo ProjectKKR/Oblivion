@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public abstract class GameItems : MonoBehaviour {
@@ -6,6 +7,7 @@ public abstract class GameItems : MonoBehaviour {
 	public bool collectable;
 	public bool zoomable;
 	public bool visible;
+	public RawImage preview;
 
 	protected bool postProcessFlag = false;
 
