@@ -32,6 +32,7 @@ public class PuzzlePieceController : GameItems {
 				dir = 0;
 				moveFlag = false;
 				manager.animating = false;
+				manager.checkAnswer ();
 			}
 		}
 	}
@@ -50,5 +51,7 @@ public class PuzzlePieceController : GameItems {
 	}
 	protected override void PostProcess () {
 		;
+	}
+	public override void ChainOperation (int caseNum){
 	}
 }

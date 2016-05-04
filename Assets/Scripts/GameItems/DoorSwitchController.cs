@@ -23,4 +23,6 @@ public class DoorSwitchController : GameItems {
 	protected override void PostProcess () {
 		;
 	}
+	public override void ChainOperation (int caseNum){
+	}
 }

@@ -27,4 +27,6 @@ public class LightSwitchController : GameItems {
 	protected override void PostProcess () {
 		;
 	}
+	public override void ChainOperation (int caseNum){
+	}
 }

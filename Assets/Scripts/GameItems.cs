@@ -24,9 +24,6 @@ public abstract class GameItems : MonoBehaviour {
 			if (EquippedItemCheck (equipped)) {
 				Interaction ();
 			}
-			if (postProcessFlag) {
-				PostProcess ();
-			}
 		}
 	}
 
@@ -50,6 +47,7 @@ public abstract class GameItems : MonoBehaviour {
 	}
 
 	protected abstract bool EquippedItemCheck (GameItems equipped);
+	public abstract void ChainOperation (int caseNum);
 	protected abstract void Interaction ();
 	protected abstract void PostProcess ();
 }

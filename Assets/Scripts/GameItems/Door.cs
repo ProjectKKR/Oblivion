@@ -7,15 +7,7 @@ public class Door : GameItems {
 
 	private Ray ray;
 	private RaycastHit hit;
-	private float openFlag;
-
-	// Use this for initialization
-	void Start () {
-		// TODO
-		interactable = true;
-		openFlag = 1.0f;
-	}
-	
+	private float openFlag=1.0f;
 
 	protected override bool EquippedItemCheck (GameItems equipped) {
 		return true;
@@ -28,5 +20,8 @@ public class Door : GameItems {
 
 	protected override void PostProcess () {
 		;
+	}
+	public override void ChainOperation (int caseNum){
+		interactable = true;
 	}
 }

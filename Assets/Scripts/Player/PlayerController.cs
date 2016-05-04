@@ -107,16 +107,17 @@ public class PlayerController : MonoBehaviour {
 							objloc.y = myloc.y = 0;
 							float distance = (myloc - objloc).magnitude;
 							if (distance <= obj.DistanceThreshold) {
+								if (!(obj.zoomable ^ zoomFlag)) {
+									obj.ClickInteraction (null);
+									if (obj.collectable) {
+										inventory.Add (obj);
+										Destroy (clickObj);
+									}
+								}
 
 								/* Zoom IN*/
 								if (obj.zoomable) {
 									ZoomIn (obj);
-								}
-
-								obj.ClickInteraction (null);
-								if (obj.collectable) {
-									inventory.Add (obj);
-									Destroy (clickObj);
 								}
 							}
 						}
