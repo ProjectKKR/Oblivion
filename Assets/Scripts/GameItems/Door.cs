@@ -13,7 +13,4 @@ public class Door : GameItems {
 		axis.transform.Rotate (new Vector3 (0, 70.0f * openFlag, 0));
 		openFlag = - openFlag;
 	}
-	new public void ChainOperation (int caseNum){
-		interactable = true;
-	}
 }

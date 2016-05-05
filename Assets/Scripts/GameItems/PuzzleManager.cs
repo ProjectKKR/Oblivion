@@ -124,6 +124,6 @@ public class PuzzleManager : GameItems {
 		solveFlag = true;
 		zoomable = false;
 		interactable = false;
-		door.ChainOperation (0);
+		door.interactable = true;
 	}
 }
