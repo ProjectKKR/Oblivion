@@ -12,21 +12,9 @@ public class LightSwitchController : GameItems {
 		state = true;
 		interactable = true;
 	}
-
-
-	protected override bool EquippedItemCheck (GameItems equipped) {
-		return true;
-	}
-
 	protected override void Interaction () {
 		state = !state;
 		switchAxis.transform.eulerAngles = new Vector3(0, state? 0 : angle, 0);
 		LC.Light (state);
-	}
-
-	protected override void PostProcess () {
-		;
-	}
-	public override void ChainOperation (int caseNum){
 	}
 }

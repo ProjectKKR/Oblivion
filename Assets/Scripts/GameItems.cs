@@ -10,46 +10,30 @@ public abstract class GameItems : MonoBehaviour {
 	public RawImage preview;
 
 	protected bool postProcessFlag = false;
-
-	private Vector3 zoomLocation;
-	private Quaternion zoomRotation;
-
+	protected Vector3 zoomLocation;
+	protected Quaternion zoomRotation;
 	protected float distanceThreshold = 4.0f;
+
+	public Quaternion ZoomRotation {
+		get { return zoomRotation; }
+	}
+	public Vector3 ZoomLocation {
+		get { return zoomLocation; }
+	}
 	public float DistanceThreshold {
-		get {
-			return distanceThreshold;
-		}
+		get { return distanceThreshold; }
 	}
 
 	public void ClickInteraction (GameItems equipped) {
-		if (interactable) {
-			if (EquippedItemCheck (equipped)) {
-				Interaction ();
-			}
-		}
+		if (interactable)
+		if (EquippedItemCheck (equipped))
+			Interaction ();
 	}
+	protected bool EquippedItemCheck (GameItems equipped){
+		return true;
+	}
+	public void ChainOperation (int caseNum){}
+	protected void PostProcess (){}
 
-	public void zoomIn(){
-		
-	}
-
-	public void setLocation(Vector3 pos){
-		zoomLocation = pos;
-	}
-	public void setRotation(Quaternion rot){
-		zoomRotation = rot;
-	}
-
-	public Vector3 getLocation(){
-		return zoomLocation;
-	}
-
-	public Quaternion getRotation(){
-		return zoomRotation;
-	}
-
-	protected abstract bool EquippedItemCheck (GameItems equipped);
-	public abstract void ChainOperation (int caseNum);
 	protected abstract void Interaction ();
-	protected abstract void PostProcess ();
 }

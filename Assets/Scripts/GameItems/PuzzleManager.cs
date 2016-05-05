@@ -14,8 +14,8 @@ public class PuzzleManager : GameItems {
 	private int currX, currY;
 	// Use this for initialization
 	void Start () {
-		setLocation (transform.position + new Vector3 (-1.5f, 0, 0));
-		setRotation (Quaternion.Euler (new Vector3 (0, 90, 0)));
+		zoomLocation = transform.position + new Vector3 (-1.5f, 0, 0);
+		zoomRotation = Quaternion.Euler (new Vector3 (0, 90, 0));
 
 		/*sol [0, 0] = 8; sol [0, 1] = 6; sol [0, 2] = 1;
 		sol [1, 0] = 7; sol [1, 1] = 5; sol [1, 2] = 3;
@@ -43,7 +43,7 @@ public class PuzzleManager : GameItems {
 		}
 	}
 
-	public void checkAnswer(){
+	public void CheckAnswer(){
 		int cnt = 0;
 		bool flag = true;
 		for (int i = 0; i < 3; i++) {
@@ -118,18 +118,12 @@ public class PuzzleManager : GameItems {
 		blankY = currY;
 		return direction;
 	}
-
-	protected override bool EquippedItemCheck(GameItems equipped) {
-		return true;
-	}
-
 	protected override void Interaction () {
-		// TODO
 	}
-	protected override void PostProcess () {
+	new protected void PostProcess () {
 		solveFlag = true;
+		zoomable = false;
+		interactable = false;
 		door.ChainOperation (0);
-	}
-	public override void ChainOperation (int caseNum){
 	}
 }

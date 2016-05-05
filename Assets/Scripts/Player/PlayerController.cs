@@ -144,9 +144,9 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	public void ZoomIn(GameItems obj){
-		Vector3 zoomPos = obj.getLocation ();
+		Vector3 zoomPos = obj.ZoomLocation;
 		Vector3 Pos = transform.position;
-		Quaternion zoomRot = obj.getRotation ();
+		Quaternion zoomRot = obj.ZoomRotation;
 		if (!zoomFlag) {
 			originalPos = transform.position; // save original position
 			originalRot = transform.rotation;
@@ -173,6 +173,5 @@ public class PlayerController : MonoBehaviour {
 	private void TurnOnUI(){
 		WhiteFrame.SetActive (false);
 		UserInterface.SetActive (true);
-
 	}
 }

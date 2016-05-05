@@ -8,7 +8,7 @@ public class StartController : MonoBehaviour {
 	void Start () {
 		SubStart.SetActive (false);
 	}
-	public void LoadOblivion(){
+	public void LoadSubStart(){
 		SubStart.SetActive (true);
 		//SceneManager.LoadScene ("Oblivion");
 	}

@@ -9,19 +9,11 @@ public class Door : GameItems {
 	private RaycastHit hit;
 	private float openFlag=1.0f;
 
-	protected override bool EquippedItemCheck (GameItems equipped) {
-		return true;
-	}
-
 	protected override void Interaction () {
 		axis.transform.Rotate (new Vector3 (0, 70.0f * openFlag, 0));
 		openFlag = - openFlag;
 	}
-
-	protected override void PostProcess () {
-		;
-	}
-	public override void ChainOperation (int caseNum){
+	new public void ChainOperation (int caseNum){
 		interactable = true;
 	}
 }

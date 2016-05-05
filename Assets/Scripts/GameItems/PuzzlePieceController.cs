@@ -11,8 +11,8 @@ public class PuzzlePieceController : GameItems {
 	private int dir;
 	// Use this for initialization
 	void Start () {
-		setLocation (manager.transform.position + new Vector3 (-1.5f, 0, 0));
-		setRotation (Quaternion.Euler (new Vector3 (0, 90, 0)));
+		zoomLocation = manager.transform.position + new Vector3 (-1.5f, 0, 0);
+		zoomRotation = Quaternion.Euler (new Vector3 (0, 90, 0));
 		dir = 0;
 		moveFlag = false;
 	}
@@ -32,12 +32,9 @@ public class PuzzlePieceController : GameItems {
 				dir = 0;
 				moveFlag = false;
 				manager.animating = false;
-				manager.checkAnswer ();
+				manager.CheckAnswer ();
 			}
 		}
-	}
-	protected override bool EquippedItemCheck(GameItems equipped) {
-		return true;
 	}
 
 	protected override void Interaction () {
@@ -48,10 +45,5 @@ public class PuzzlePieceController : GameItems {
 		if (dir == 0)
 			return;
 		moveFlag = true;
-	}
-	protected override void PostProcess () {
-		;
-	}
-	public override void ChainOperation (int caseNum){
 	}
 }
