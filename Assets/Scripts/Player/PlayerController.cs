@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour {
 	public VirtualJoystick_right jsR;
 	public float moveSpeed;
 	public float terminalRotationSpeed = 25.0f;
+	public List<GameItems> inventory;
 	//-----------------------------------------------//
 	private Ray ray;
 	private RaycastHit hit;
@@ -27,8 +28,6 @@ public class PlayerController : MonoBehaviour {
 	private bool zoomFlag;
 
 	private GameItems equipped;
-
-	private List<GameItems> inventory;
 
 
 	void Start () {
