@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Door : GameItems {
+public class Door :  GameItems {
 	public float speed;
 	public GameObject axis;
 
@@ -10,7 +10,7 @@ public class Door : GameItems {
 	private float openFlag=1.0f;
 
 	protected override void Interaction () {
-		axis.transform.Rotate (new Vector3 (0, 70.0f * openFlag, 0));
+		axis.transform.Rotate (new Vector3 (0, -80.0f * openFlag, 0));
 		openFlag = - openFlag;
 	}
 }
