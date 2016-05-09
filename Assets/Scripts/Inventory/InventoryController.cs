@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 using System.Collections;
 
 
-public class InventoryController : MonoBehaviour, IPointerDownHandler {
+public class InventoryController : MonoBehaviour, IPointerClickHandler {
 	public GameObject invPlane;
 	private RawImage invPoint;
 	private int time = 0;
@@ -38,7 +38,7 @@ public class InventoryController : MonoBehaviour, IPointerDownHandler {
 		}
 	}
 
-	public virtual void OnPointerDown(PointerEventData ped){
+	public virtual void OnPointerClick(PointerEventData ped){
 		opened = !opened;
 	}
 }

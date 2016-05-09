@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour {
 	public VirtualJoystick_right jsR;
 	public float moveSpeed;
 	public float terminalRotationSpeed = 25.0f;
-	public List<GameItems> inventory;
+	public InventoryItemController inventory;
 	//-----------------------------------------------//
 	private Ray ray;
 	private RaycastHit hit;
@@ -40,8 +40,6 @@ public class PlayerController : MonoBehaviour {
 		for (int i = 0; i < 10; i++)
 			array [i] = 0.0f;
 		pcUpDownAngle = 0.0f;
-
-		inventory = new List<GameItems> ();
 	}
 
 	void Update () {
@@ -109,8 +107,10 @@ public class PlayerController : MonoBehaviour {
 								if (!(obj.zoomable ^ zoomFlag)) {
 									obj.ClickInteraction (null);
 									if (obj.collectable) {
+										print (obj);
 										inventory.Add (obj);
-										Destroy (clickObj);
+										//Destroy (clickObj);
+										clickObj.SetActive(false);
 									}
 								}
 

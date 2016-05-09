@@ -7,7 +7,7 @@ public abstract class GameItems : MonoBehaviour {
 	public bool collectable;
 	public bool zoomable;
 	public bool visible;
-	public RawImage preview;
+	public Texture preview;
 
 	protected bool postProcessFlag = false;
 	protected Vector3 zoomLocation;
