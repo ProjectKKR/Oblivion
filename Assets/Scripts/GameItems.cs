@@ -26,8 +26,8 @@ public abstract class GameItems : MonoBehaviour {
 
 	public void ClickInteraction (GameItems equipped) {
 		if (interactable)
-		if (EquippedItemCheck (equipped))
-			Interaction ();
+			if (EquippedItemCheck (equipped))
+				Interaction ();
 	}
 	protected bool EquippedItemCheck (GameItems equipped){
 		return true;

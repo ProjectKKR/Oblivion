@@ -56,7 +56,6 @@ public class PuzzleManager : GameItems {
 			}
 		}
 		flag = (cnt == 8);
-		print (flag);
 		if (flag) {
 			PostProcess ();
 		}
@@ -68,7 +67,7 @@ public class PuzzleManager : GameItems {
 		// TODO : NEED OPTIMIZE
 		animating = false;
 		for (int i = 0; i < this.gameObject.transform.GetChild (1).transform.childCount; i++) {
-			PuzzlePieceController ppc = this.gameObject.transform.GetChild (1).transform.GetChild(i). GetComponent<PuzzlePieceController> ();
+			PuzzlePieceController ppc = this.gameObject.transform.GetChild (1).GetChild(i). GetComponent<PuzzlePieceController> ();
 			if (ppc == null)
 				continue;
 			animating = animating | ppc.moveFlag;
@@ -124,6 +123,10 @@ public class PuzzleManager : GameItems {
 		solveFlag = true;
 		zoomable = false;
 		interactable = false;
+		for (int i = 0; i < this.gameObject.transform.GetChild (1).transform.childCount; i++) {
+			PuzzlePieceController ppc = this.gameObject.transform.GetChild (1).GetChild(i). GetComponent<PuzzlePieceController> ();
+			ppc.interactable = false;
+		}
 		door.interactable = true;
 	}
 }

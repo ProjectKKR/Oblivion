@@ -107,7 +107,6 @@ public class PlayerController : MonoBehaviour {
 								if (!(obj.zoomable ^ zoomFlag)) {
 									obj.ClickInteraction (null);
 									if (obj.collectable) {
-										print (obj);
 										inventory.Add (obj);
 										//Destroy (clickObj);
 										clickObj.SetActive(false);

@@ -7,7 +7,6 @@ public class ItemRoomController : MonoBehaviour, IPointerClickHandler {
 	public InventoryItemController iic;
 	public int number;
 	public virtual void OnPointerClick(PointerEventData ped){
-		print ("click");
 		iic.Clicked (number);
 	}
 	public void ShowImage(Texture texture){
