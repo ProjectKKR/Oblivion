@@ -23,17 +23,15 @@ public abstract class GameItems : MonoBehaviour {
 	public float DistanceThreshold {
 		get { return distanceThreshold; }
 	}
-
 	public void ClickInteraction (GameItems equipped) {
 		if (interactable)
 			if (EquippedItemCheck (equipped))
 				Interaction ();
 	}
-	protected bool EquippedItemCheck (GameItems equipped){
+	protected virtual bool EquippedItemCheck (GameItems equipped){
 		return true;
 	}
 	public void ChainOperation (int caseNum){}
 	protected void PostProcess (){}
-
 	protected abstract void Interaction ();
 }

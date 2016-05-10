@@ -8,7 +8,6 @@ public class MainDoor :  GameItems {
 	private bool openFlag = false;
 
 	protected override void Interaction () {
-		Debug.Log ("Fuck");
 		if (openFlag)
 			door.transform.Translate (new Vector3 (0, 0, 1) * speed);
 		else

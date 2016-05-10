@@ -3,6 +3,7 @@ using System.Collections;
 
 public class DigitalClock : GameItems {
 	public GameObject axis;
+	public GameItems umbrella;
 	private const float angle = 50;
 	private bool state;
 
@@ -10,9 +11,9 @@ public class DigitalClock : GameItems {
 		state = false;
 	}
 
-	new protected bool EquippedItemCheck (GameItems equipped){
+	protected override bool EquippedItemCheck (GameItems equipped){
 		// TODO : if equipped == umbrella
-		return true;
+		return equipped.Equals(umbrella);
 	}
 
 	protected override void Interaction() {

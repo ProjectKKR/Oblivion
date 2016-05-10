@@ -27,11 +27,7 @@ public class PlayerController : MonoBehaviour {
 	private int idx = 0;
 	private bool zoomFlag;
 
-	private GameItems equipped;
-
-
 	void Start () {
-		equipped = null;
 		zoomFlag = false;
 		WhiteFrame.SetActive (false);
 		rb = gameObject.GetComponent<Rigidbody> ();
@@ -105,7 +101,7 @@ public class PlayerController : MonoBehaviour {
 							float distance = (myloc - objloc).magnitude;
 							if (distance <= obj.DistanceThreshold) {
 								if (!(obj.zoomable ^ zoomFlag)) {
-									obj.ClickInteraction (null);
+									obj.ClickInteraction (inventory.CurrentItem());
 									if (obj.collectable) {
 										inventory.Add (obj);
 										//Destroy (clickObj);

@@ -54,4 +54,11 @@ public class InventoryItemController : MonoBehaviour {
 			}
 		}
 	}
+
+	public GameItems CurrentItem(){
+		print (equipIndex);
+		if (equipIndex == -1)
+			return null;
+		return itemList [equipIndex];
+	}
 }
