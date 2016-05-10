@@ -27,6 +27,10 @@ public class PlayerController : MonoBehaviour {
 	private int idx = 0;
 	private bool zoomFlag;
 
+	//
+	//private float previousAngle = 0.0f;
+	//
+
 	void Start () {
 		zoomFlag = false;
 		WhiteFrame.SetActive (false);
@@ -41,10 +45,13 @@ public class PlayerController : MonoBehaviour {
 	void Update () {
 		if (PauseMenu.activeInHierarchy) {
 			rb.velocity = Vector3.zero;
-		} else{
+		}
+
+		else {
 			if (!zoomFlag) {
 				/* Move Around & Rotate LEFT and RIGHT */
 				/*-----------------------------------------------*/
+
 				MoveVector = PoolRightInput ();
 				Vector3 v = MoveVector * moveSpeed;
 				rb.AddRelativeForce (v * 20);
@@ -54,8 +61,15 @@ public class PlayerController : MonoBehaviour {
 				if (MoveVector == Vector3.zero)
 					rb.velocity = Vector3.zero;
 				gameObject.transform.Rotate (new Vector3 (0, jsR.Turn () * 2.3f, 0), Space.World);
-				/*-----------------------------------------------*/
 
+				/*-----------------------------------------------*/
+				/*
+				Compass compass = Input.compass;
+				float rotangle = compass.magneticHeading - previousAngle;
+				previousAngle = compass.magneticHeading;
+				transform.Rotate (new Vector3 (0, rotangle, 0));
+				Debug.Log (rotangle);
+				*/
 
 				/* Rotate UP and Down*/
 				/*-----------------------------------------------*/
@@ -81,7 +95,7 @@ public class PlayerController : MonoBehaviour {
 					euler.x = -80;
 				if (euler.x > 80)
 					euler.x = 80;
-				transform.rotation = Quaternion.Euler (euler);
+				mainCamera.transform.rotation = Quaternion.Euler (euler);
 				/*-----------------------------------------------*/
 			} else {
 				rb.velocity = Vector3.zero;

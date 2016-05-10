@@ -6,7 +6,6 @@ public abstract class GameItems : MonoBehaviour {
 	public bool interactable;
 	public bool collectable;
 	public bool zoomable;
-	public bool visible;
 	public Texture preview;
 
 	protected bool postProcessFlag = false;
@@ -23,6 +22,8 @@ public abstract class GameItems : MonoBehaviour {
 	public float DistanceThreshold {
 		get { return distanceThreshold; }
 	}
+
+
 	public void ClickInteraction (GameItems equipped) {
 		if (interactable)
 			if (EquippedItemCheck (equipped))
@@ -32,6 +33,6 @@ public abstract class GameItems : MonoBehaviour {
 		return true;
 	}
 	public void ChainOperation (int caseNum){}
-	protected void PostProcess (){}
+	protected virtual void PostProcess (){}
 	protected abstract void Interaction ();
 }

@@ -21,7 +21,7 @@ public class LightController : MonoBehaviour {
 	public void Light (bool state) {
 		for (int i = 0; i < transform.childCount; i++) {
 			Light l = this.gameObject.transform.GetChild (i).GetComponent<Light> ();
-			l.intensity = state?initialIntensity[i]:0.1f;
+			l.intensity = state ? initialIntensity[i] : 0.1f;
 		}
 	}
 }

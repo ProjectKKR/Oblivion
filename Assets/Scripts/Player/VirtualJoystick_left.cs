@@ -37,9 +37,8 @@ public class VirtualJoystick_left : MonoBehaviour, IDragHandler, IPointerUpHandl
 		jsImg.rectTransform.anchoredPosition = Vector3.zero;
 	}
 	public float Horizontal(){
-		if (inputVector.x != 0) {
+		if (inputVector.x != 0)
 			return inputVector.x;
-		}
 		else
 			return Input.GetAxis ("Horizontal");
 	}

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Click : MonoBehaviour {
+public class ClickRayCastScriptBackup : MonoBehaviour {
 
 	private Ray ray;
 	private RaycastHit hit;
