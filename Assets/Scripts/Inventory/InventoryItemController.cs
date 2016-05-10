@@ -18,13 +18,30 @@ public class InventoryItemController : MonoBehaviour {
 		}
 		equipIndex = -1; // DEFAULT
 	}
-	public void Add(GameItems Item){
-		itemList.Add (Item);
+	public void Add(GameItems item){
+		itemList.Add (item);
 		Refresh ();
 		if (itemList.Count > maxItem) print ("Inventory Exceed");
 	}
 
+	public void Delete(GameItems item){
+		for (int i=0;i<itemList.Count;i++){
+			if (itemList[i].Equals(item)){
+				if (equipIndex > i)
+					equipIndex--;
+				else if (equipIndex == i)
+					equipIndex = -1;
+				itemList.RemoveAt(i);
+				break;
+			}
+		}
+		Refresh ();
+	}
+						
+
 	public void Clicked(int number){
+		if (number > itemList.Count)
+			return;
 		if (equipIndex == number) {
 			equipIndex = -1;
 		} else {
@@ -56,8 +73,7 @@ public class InventoryItemController : MonoBehaviour {
 	}
 
 	public GameItems CurrentItem(){
-		print (equipIndex);
-		if (equipIndex == -1)
+		if (equipIndex == -1 || equipIndex >= itemList.Count)
 			return null;
 		return itemList [equipIndex];
 	}

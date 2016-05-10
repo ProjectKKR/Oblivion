@@ -13,7 +13,8 @@ public class PlayerController : MonoBehaviour {
 	public VirtualJoystick_right jsR;
 	public float moveSpeed;
 	public float terminalRotationSpeed = 25.0f;
-	public InventoryItemController inventory;
+	public static InventoryItemController inventory;
+	public InventoryItemController inventoryTemp;
 	//-----------------------------------------------//
 	private Ray ray;
 	private RaycastHit hit;
@@ -36,6 +37,7 @@ public class PlayerController : MonoBehaviour {
 		WhiteFrame.SetActive (false);
 		rb = gameObject.GetComponent<Rigidbody> ();
 		rb.maxAngularVelocity = terminalRotationSpeed;
+		inventory = inventoryTemp;
 
 		for (int i = 0; i < 10; i++)
 			array [i] = 0.0f;

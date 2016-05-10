@@ -14,4 +14,10 @@ public class MainDoor :  GameItems {
 			door.transform.Translate (new Vector3 (0, 0, -1) * speed);
 		openFlag = !openFlag;
 	}
+
+	public override void ChainOperation (int caseNum) {
+		if (caseNum == 0) {
+			Interaction ();
+		}
+	}
 }

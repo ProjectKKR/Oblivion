@@ -8,7 +8,6 @@ public abstract class GameItems : MonoBehaviour {
 	public bool zoomable;
 	public Texture preview;
 
-	protected bool postProcessFlag = false;
 	protected Vector3 zoomLocation;
 	protected Quaternion zoomRotation;
 	protected float distanceThreshold = 4.0f;
@@ -32,7 +31,6 @@ public abstract class GameItems : MonoBehaviour {
 	protected virtual bool EquippedItemCheck (GameItems equipped){
 		return true;
 	}
-	public void ChainOperation (int caseNum){}
-	protected virtual void PostProcess (){}
+	public virtual void ChainOperation (int caseNum){}
 	protected abstract void Interaction ();
 }

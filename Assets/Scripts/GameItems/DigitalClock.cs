@@ -12,12 +12,13 @@ public class DigitalClock : GameItems {
 	}
 
 	protected override bool EquippedItemCheck (GameItems equipped){
-		// TODO : if equipped == umbrella
+		if (equipped == null) return false;
 		return equipped.Equals(umbrella);
 	}
 
 	protected override void Interaction() {
 		state = !state;
 		axis.transform.eulerAngles = new Vector3 (state? -angle : 0, 0, 0);
+		PlayerController.inventory.Delete (umbrella);
 	}
 }

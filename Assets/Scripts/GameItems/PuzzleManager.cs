@@ -119,7 +119,7 @@ public class PuzzleManager : GameItems {
 	}
 	protected override void Interaction () {
 	}
-	new protected void PostProcess () {
+	protected void PostProcess () {
 		solveFlag = true;
 		zoomable = false;
 		interactable = false;
