@@ -10,15 +10,17 @@ public class InventoryController : MonoBehaviour, IPointerClickHandler {
 	private int time = 0;
 	private bool opened = false;
 
+	public GameObject inventoryCanvas;
 	float intervalStart, intervalEnd;
 	float intervalStart2, intervalEnd2;
 
 	void Start () {
 		invPoint = transform.GetChild (0).GetComponent<RawImage> ();
-		intervalStart = 20.0f - 250.0f;
-		intervalEnd = 140.0f - 250.0f;
-		intervalStart2 = -60.0f - 250.0f;
-		intervalEnd2 = 60.0f - 250.0f;
+		float height = inventoryCanvas.transform.GetComponent<RectTransform> ().rect.height;
+		intervalStart = 20.0f - height / 2;
+		intervalEnd = 140.0f - height / 2;
+		intervalStart2 = -60.0f - height / 2;
+		intervalEnd2 = 60.0f - height / 2;
 		transform.localPosition = new Vector3 (0, intervalStart, 0);
 		invPlane.transform.localPosition = new Vector3 (0, intervalStart2, 0);
 
