@@ -40,7 +40,7 @@ public class InventoryItemController : MonoBehaviour {
 						
 
 	public void Clicked(int number){
-		if (number > itemList.Count)
+		if (number >= itemList.Count)
 			return;
 		if (equipIndex == number) {
 			equipIndex = -1;
