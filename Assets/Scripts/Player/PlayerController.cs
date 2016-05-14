@@ -165,7 +165,7 @@ public class PlayerController : MonoBehaviour {
 		zoomFlag = true;
 		TurnOffUI ();
 		transform.Translate (zoomPos - Pos,Space.World);
-		transform.rotation = zoomRot;
+		mainCamera.transform.rotation = zoomRot;
 		rb.velocity = Vector3.zero;
 	}
 
