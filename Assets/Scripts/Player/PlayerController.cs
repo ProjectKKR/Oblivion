@@ -108,6 +108,7 @@ public class PlayerController : MonoBehaviour {
 				if (Physics.Raycast (ray, out hit, Mathf.Infinity)) {
 					if (!IsPointerOverUIObject ()) {
 						GameObject clickObj = hit.transform.gameObject;
+						Debug.Log (clickObj);
 						GameItems obj = clickObj.GetComponent<GameItems> ();
 						if (obj != null) {
 							Vector3 objloc = clickObj.transform.position;
