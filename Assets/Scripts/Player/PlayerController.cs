@@ -163,19 +163,20 @@ public class PlayerController : MonoBehaviour {
 		Quaternion zoomRot = obj.ZoomRotation;
 		if (!zoomFlag) {
 			originalPos = transform.position; // save original position
-			originalRot = transform.rotation;
-		}
+			originalRot = mainCamera.transform.rotation;
+		} else
+			return;
 		zoomFlag = true;
 		TurnOffUI ();
-		transform.Translate (zoomPos - Pos,Space.World);
-		transform.rotation = zoomRot;
+		mainCamera.transform.Translate (zoomPos - Pos,Space.World);
+		mainCamera.transform.rotation = zoomRot;
 		rb.velocity = Vector3.zero;
 	}
 
 	public void ZoomOut(){
 		zoomFlag = false;
-		transform.Translate (originalPos - transform.position, Space.World);
-		transform.rotation = originalRot;
+		mainCamera.transform.Translate (originalPos - mainCamera.transform.position, Space.World);
+		mainCamera.transform.rotation = originalRot;
 		TurnOnUI ();
 	}
 
