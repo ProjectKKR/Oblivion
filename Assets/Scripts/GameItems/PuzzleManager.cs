@@ -126,6 +126,7 @@ public class PuzzleManager : GameItems {
 		for (int i = 0; i < this.gameObject.transform.GetChild (1).transform.childCount; i++) {
 			PuzzlePieceController ppc = this.gameObject.transform.GetChild (1).GetChild(i). GetComponent<PuzzlePieceController> ();
 			ppc.interactable = false;
+			ppc.zoomable = false;
 		}
 		door.interactable = true;
 	}

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class OptionController : MonoBehaviour {
+public class FiniteMove : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
