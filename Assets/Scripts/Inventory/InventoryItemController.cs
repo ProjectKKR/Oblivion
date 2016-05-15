@@ -13,6 +13,7 @@ public class InventoryItemController : MonoBehaviour {
 	private int equipIndex; // 몇번째 아이템을 장착중인가
 
 	void Start(){
+		highlightFrame.SetActive (false);
 		for (int i = 0; i < maxItem; i++) {
 			PreviewList [i] = content.transform.GetChild (i).gameObject;
 		}

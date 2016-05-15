@@ -6,12 +6,10 @@ using System.Collections;
 public class StartController : MonoBehaviour {
 	public GameObject SubStart;
 	public Text loadingMessage;
-	int state;
 
 	// Use this for initialization
 	void Start () {
 		SubStart.SetActive (false);
-		state = 0;
 	}
 	public void LoadSubStart(){
 		SubStart.SetActive (true);
