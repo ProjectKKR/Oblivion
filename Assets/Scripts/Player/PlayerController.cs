@@ -110,6 +110,7 @@ public class PlayerController : MonoBehaviour {
 						GameObject clickObj = hit.transform.gameObject;
 						Debug.Log (clickObj);
 						GameItems obj = clickObj.GetComponent<GameItems> ();
+						Debug.Log (obj);
 						if (obj != null) {
 							Vector3 objloc = clickObj.transform.position;
 							Vector3 myloc = transform.position;
@@ -117,6 +118,7 @@ public class PlayerController : MonoBehaviour {
 							objloc.y = myloc.y = 0;
 							float distance = (myloc - objloc).magnitude;
 							if (distance <= obj.DistanceThreshold) {
+								print (obj.zoomable);
 								if (!(obj.zoomable ^ zoomFlag)) {
 									obj.ClickInteraction (inventory.CurrentItem());
 									if (obj.collectable) {

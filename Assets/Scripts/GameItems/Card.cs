@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class KeyTrigger: GameItems{
+public class Card: GameItems{
 	protected override void Interaction () {
 		// TODO
 	}
