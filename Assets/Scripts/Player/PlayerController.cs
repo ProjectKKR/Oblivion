@@ -159,16 +159,15 @@ public class PlayerController : MonoBehaviour {
 
 	public void ZoomIn(GameItems obj){
 		Vector3 zoomPos = obj.ZoomLocation;
-		Vector3 Pos = transform.position;
 		Quaternion zoomRot = obj.ZoomRotation;
 		if (!zoomFlag) {
-			originalPos = transform.position; // save original position
+			originalPos = mainCamera.transform.position; // save original position
 			originalRot = mainCamera.transform.rotation;
 		} else
 			return;
 		zoomFlag = true;
 		TurnOffUI ();
-		mainCamera.transform.Translate (zoomPos - Pos,Space.World);
+		mainCamera.transform.Translate (zoomPos - originalPos,Space.World);
 		mainCamera.transform.rotation = zoomRot;
 		rb.velocity = Vector3.zero;
 	}
