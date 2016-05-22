@@ -5,7 +5,7 @@ using System.Collections;
 public class Computer : MonoBehaviour {
 	public Text view;
 	public GameItems[] activateGameItems = new GameItems[4];
-	public GameObject lights;
+	public GameObject lights, njScreen;
 	public Material redLightOn, redLightOff, greenLightOn, greenLightOff;
 
 	private int[] inputCode = new int[10];
@@ -31,6 +31,10 @@ public class Computer : MonoBehaviour {
 		for (int i = 0; i < N; i++) {
 			if (activateCode[i] == translate()) {
 				activateGameItems [i].interactable = true;
+				if (i == 1) { // enable NumberJumpScreen & zoomable flag
+					njScreen.SetActive (true);
+					activateGameItems [i].zoomable = true;
+				}
 				clearFlag [i] = true;
 			}
 		}
