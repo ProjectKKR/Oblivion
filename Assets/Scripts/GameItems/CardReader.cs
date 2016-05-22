@@ -8,6 +8,7 @@ public class CardReader : GameItems {
 	public GameObject greenLight2;
 	public Material redLightOff;
 	public Material greenLightOn;
+	public GameObject EndingMenu;
 
 	public GameItems card1;
 	public GameItems card2;
@@ -35,6 +36,9 @@ public class CardReader : GameItems {
 			redLight2.GetComponent<Renderer> ().sharedMaterial = redLightOff;
 			greenLight2.GetComponent<Renderer> ().sharedMaterial = greenLightOn;
 			cardFlag2 = false;
+		}
+		if (!cardFlag1 && !cardFlag2) {
+			EndingMenu.SetActive (true);
 		}
 	}
 
