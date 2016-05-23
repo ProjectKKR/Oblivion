@@ -58,7 +58,6 @@ public class PlayerController : MonoBehaviour {
 			if (!zoomFlag) {
 				/* Move Around & Rotate LEFT and RIGHT */
 				/*-----------------------------------------------*/
-
 				MoveVector = PoolRightInput ();
 				Vector3 v = MoveVector * moveSpeed;
 				rb.AddRelativeForce (v * 20);
@@ -68,11 +67,11 @@ public class PlayerController : MonoBehaviour {
 				if (MoveVector == Vector3.zero)
 					rb.velocity = Vector3.zero;
 				//transform.Rotate (new Vector3 (0, jsR.Turn () * 2.3f, 0), Space.World);
-
-				/*-----------------------------------------------*/
 				float compassAngle = Input.compass.magneticHeading;
 				compassSum = 0.0f;
-				for (int i = 0; i < NUM; i++) {
+				float coefficient = 1.0f;
+				compassArray [compassIdx] = compassAngle;
+				for (int temp = 0, i = compassIdx; temp < NUM; temp++,i = (i + 1) % NUM) {
 					float t = compassArray [i];
 					if (Mathf.Abs (t - compassAngle) > 180.0f) {
 						float t1 = t - 360.0f;
@@ -82,12 +81,13 @@ public class PlayerController : MonoBehaviour {
 						else
 							t = t1;
 					}
-					compassSum += t;
+					coefficient /= 2.0f;
+					compassSum += t * coefficient;
 				}
-				compassArray [compassIdx] = compassAngle;
+				compassSum += compassAngle * coefficient;
 				compassIdx = (compassIdx + 1) % NUM;
 
-				transform.rotation = Quaternion.Euler(0,compassSum / (float)NUM,0);
+				transform.rotation = Quaternion.Euler(0,compassSum,0);
 
 
 				/* Rotate UP and Down*/
