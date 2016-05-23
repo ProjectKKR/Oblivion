@@ -20,9 +20,9 @@ public class PuzzleManager : GameItems {
 		/*sol [0, 0] = 8; sol [0, 1] = 6; sol [0, 2] = 1;
 		sol [1, 0] = 7; sol [1, 1] = 5; sol [1, 2] = 3;
 		sol [2, 0] = 4; sol [2, 1] = 2; sol [2, 2] = 0;*/
-		sol [0, 0] = 1; sol [0, 1] = 2; sol [0, 2] = 3;
-		sol [1, 0] = 4; sol [1, 1] = 6; sol [1, 2] = 8;
-		sol [2, 0] = 7; sol [2, 1] = 5; sol [2, 2] = 0;
+		sol [0, 0] = 4; sol [0, 1] = 1; sol [0, 2] = 6;
+		sol [1, 0] = 7; sol [1, 1] = 8; sol [1, 2] = 3;
+		sol [2, 0] = 5; sol [2, 1] = 2; sol [2, 2] = 0;
 
 		for (int i = 0; i < 3; i++)
 		{
