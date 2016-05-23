@@ -23,14 +23,13 @@ public class PlayerController : MonoBehaviour {
 	private Quaternion originalRot;
 	private Rigidbody rb;
 	private float pcUpDownAngle;
-	private float[] array = new float[10];
-	private float sum = 0.0f;
-	private int idx = 0;
+	private float[] accelArray = new float[10];
+	private float[] compassArray = new float[10];
+	private float accelSum = 0.0f, compassSum = 0.0f;
+	private int accelIdx = 0, compassIdx = 0;
 	private bool zoomFlag;
+	private const int NUM = 7;
 
-	//
-	//private float previousAngle = 0.0f;
-	//
 
 	void Start () {
 		zoomFlag = false;
@@ -39,9 +38,15 @@ public class PlayerController : MonoBehaviour {
 		rb.maxAngularVelocity = terminalRotationSpeed;
 		inventory = inventoryTemp;
 
-		for (int i = 0; i < 10; i++)
-			array [i] = 0.0f;
+		for (int i = 0; i < 10; i++) {
+			accelArray [i] = 0.0f;
+			compassArray [i] = 0.0f;
+		}
 		pcUpDownAngle = 0.0f;
+
+		Input.compass.enabled = true;
+		//while (Mathf.Abs (Input.compass.magneticHeading) < 1e-3)
+			;
 	}
 
 	void Update () {
@@ -62,16 +67,28 @@ public class PlayerController : MonoBehaviour {
 					rb.velocity = rb.velocity.normalized * 0.8f * norm;
 				if (MoveVector == Vector3.zero)
 					rb.velocity = Vector3.zero;
-				gameObject.transform.Rotate (new Vector3 (0, jsR.Turn () * 2.3f, 0), Space.World);
+				//transform.Rotate (new Vector3 (0, jsR.Turn () * 2.3f, 0), Space.World);
 
 				/*-----------------------------------------------*/
-				/*
-				Compass compass = Input.compass;
-				float rotangle = compass.magneticHeading - previousAngle;
-				previousAngle = compass.magneticHeading;
-				transform.Rotate (new Vector3 (0, rotangle, 0));
-				Debug.Log (rotangle);
-				*/
+				float compassAngle = Input.compass.magneticHeading;
+				compassSum = 0.0f;
+				for (int i = 0; i < NUM; i++) {
+					float t = compassArray [i];
+					if (Mathf.Abs (t - compassAngle) > 180.0f) {
+						float t1 = t - 360.0f;
+						float t2 = t + 360.0f;
+						if (Mathf.Abs (t1 - compassAngle) > Mathf.Abs (t2 - compassAngle))
+							t = t2;
+						else
+							t = t1;
+					}
+					compassSum += t;
+				}
+				compassArray [compassIdx] = compassAngle;
+				compassIdx = (compassIdx + 1) % NUM;
+
+				transform.rotation = Quaternion.Euler(0,compassSum / (float)NUM,0);
+
 
 				/* Rotate UP and Down*/
 				/*-----------------------------------------------*/
@@ -85,14 +102,14 @@ public class PlayerController : MonoBehaviour {
 				float angle = 0;
 				if (Accel != Vector3.zero)
 					angle = Mathf.Atan2 (Accel.z, -Accel.y) * Mathf.Rad2Deg;
-				sum += angle - array [idx];
-				array [idx] = angle;
-				idx = (idx + 1) % 10;
+				accelSum += angle - accelArray [accelIdx];
+				accelArray [accelIdx] = angle;
+				accelIdx = (accelIdx + 1) % NUM;
 
 				Quaternion Identity = transform.rotation;
 				Quaternion Rot = Identity;
 				Vector3 euler = Rot.eulerAngles;
-				euler.x = -sum / 10.0f - pcUpDownAngle;
+				euler.x = -accelSum / (float)NUM - pcUpDownAngle;
 				if (euler.x < -80)
 					euler.x = -80;
 				if (euler.x > 80)
