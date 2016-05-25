@@ -30,6 +30,17 @@ public class PlayerController : MonoBehaviour {
 	private bool zoomFlag;
 	private const int NUM = 7;
 
+	public bool getZoomFlag() {
+		return zoomFlag;
+	}
+
+	public Vector3 getOriginalPos() {
+		return originalPos;
+	}
+
+	public Quaternion getOriginalRot() {
+		return originalRot;
+	}
 
 	void Start () {
 		zoomFlag = false;
@@ -46,9 +57,33 @@ public class PlayerController : MonoBehaviour {
 
 		Input.compass.enabled = true;
 		//while (Mathf.Abs (Input.compass.magneticHeading) < 1e-3)
-		if (PlayerPrefs.HasKey ("playerPosition")) {
-			transform.position = PlayerPrefsX.GetVector3 ("playerPosition");
-			transform.rotation = PlayerPrefsX.GetQuaternion ("playerRotation");
+		if (PlayerPrefs.HasKey ("Player_Position")) {
+			transform.position = PlayerPrefsX.GetVector3 ("Player_Position");
+		}
+
+		if (PlayerPrefs.HasKey ("Player_Rotation")) {
+			transform.rotation = PlayerPrefsX.GetQuaternion ("Player_Rotation");
+		}
+
+		if (PlayerPrefs.HasKey ("Player_Zoom_Flag")) {
+			zoomFlag = PlayerPrefsX.GetBool ("Player_Zoom_Flag");
+		}
+
+		if (PlayerPrefs.HasKey ("Camera_Original_Position")) {
+			originalPos = PlayerPrefsX.GetVector3 ("Camera_Original_Position");
+		}
+
+		if (PlayerPrefs.HasKey ("Camera_Original_Rotation")) {
+			originalRot = PlayerPrefsX.GetQuaternion ("Camera_Original_Rotation");
+		}
+
+		if (zoomFlag) {
+			TurnOffUI ();
+			if (PlayerPrefs.HasKey ("Camera_Position"))
+				mainCamera.transform.position = PlayerPrefsX.GetVector3 ("Camera_Position");
+			if (PlayerPrefs.HasKey ("Camera_Rotation"))
+				mainCamera.transform.rotation = PlayerPrefsX.GetQuaternion ("Camera_Rotation");
+			rb.velocity = Vector3.zero;
 		}
 	}
 

@@ -14,11 +14,38 @@ public class Computer : MonoBehaviour {
 	private bool[] clearFlag = new bool[4]{false, false, false, false};
 	private Renderer[] redLight = new Renderer[4];
 	private Renderer[] greenLight = new Renderer[4];
+
+	public int[] getInputCode() {
+		return inputCode;
+	}
+
+	public int getLen() {
+		return len;
+	}
+
+	public bool[] getClearFlag() {
+		return clearFlag;
+	}
+
 	void Start(){
 		for (int i = 0; i < N; i++) {
 			redLight[i] = lights.transform.GetChild (i).GetComponent<Renderer> ();
 			greenLight[i] = lights.transform.GetChild (i + N).GetComponent<Renderer> ();
 		}
+
+		if (PlayerPrefs.HasKey ("Computer_Text")) {
+			inputCode = PlayerPrefsX.GetIntArray ("Computer_Text");
+		}
+
+		if (PlayerPrefs.HasKey ("Computer_Text_Length")) {
+			len = PlayerPrefs.GetInt ("Computer_Text_Length");
+		}
+
+		if (PlayerPrefs.HasKey ("Computer_Clear_Flag")) {
+			clearFlag = PlayerPrefsX.GetBoolArray ("Computer_Clear_Flag");	
+		}
+
+		Refresh ();
 	}
 	string translate(){
 		string t = "";
