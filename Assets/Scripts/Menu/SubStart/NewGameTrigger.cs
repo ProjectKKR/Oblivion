@@ -5,6 +5,6 @@ using System.Collections;
 public class NewGameTrigger : MonoBehaviour {
 	public void Trigger(){
 		//TODO : Delete all save data
-		SceneManager.LoadScene("Oblivion");
+		SceneManager.LoadScene("snups");
 	}
 }
