@@ -46,7 +46,10 @@ public class PlayerController : MonoBehaviour {
 
 		Input.compass.enabled = true;
 		//while (Mathf.Abs (Input.compass.magneticHeading) < 1e-3)
-			;
+		if (PlayerPrefs.HasKey ("playerPosition")) {
+			transform.position = PlayerPrefsX.GetVector3 ("playerPosition");
+			transform.rotation = PlayerPrefsX.GetQuaternion ("playerRotation");
+		}
 	}
 
 	void Update () {
@@ -58,6 +61,18 @@ public class PlayerController : MonoBehaviour {
 			if (!zoomFlag) {
 				/* Move Around & Rotate LEFT and RIGHT */
 				/*-----------------------------------------------*/
+
+				MoveVector = PoolRightInput ();
+				Vector3 v = MoveVector * moveSpeed;
+				rb.AddRelativeForce (v * 20);
+				float norm = rb.velocity.magnitude;
+				if (rb.velocity.magnitude > 0.8f * norm)
+					rb.velocity = rb.velocity.normalized * 0.8f * norm;
+				if (MoveVector == Vector3.zero)
+					rb.velocity = Vector3.zero;
+				gameObject.transform.Rotate (new Vector3 (0, jsR.Turn () * 2.3f, 0), Space.World);
+
+				/*
 				MoveVector = PoolRightInput ();
 				Vector3 v = MoveVector * moveSpeed;
 				rb.AddRelativeForce (v * 20);
@@ -88,7 +103,7 @@ public class PlayerController : MonoBehaviour {
 				compassIdx = (compassIdx + 1) % NUM;
 
 				transform.rotation = Quaternion.Euler(0,compassSum,0);
-
+				*/
 
 				/* Rotate UP and Down*/
 				/*-----------------------------------------------*/
