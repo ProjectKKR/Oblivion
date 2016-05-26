@@ -10,6 +10,8 @@ public class SaveTrigger : MonoBehaviour {
 	public VaultDoor vd2;
 	public GameObject card1;
 	public GameObject card2;
+	public CardReader cardReader;
+	public InventoryItemController iic;
 
 	public void Trigger(){
 		// Player Position & Rotation
@@ -39,12 +41,15 @@ public class SaveTrigger : MonoBehaviour {
 		PlayerPrefs.SetFloat ("Valut2_Door_Open_Flag", vd2.getOpenFlag ());
 
 		// Card
-		PlayerPrefsX.SetBool ("Card1_Active", card1.activeSelf);
-		PlayerPrefsX.SetBool ("Card2_Active", card2.activeSelf);
+//		PlayerPrefsX.SetBool ("Card1_Active", card1.activeSelf);
+//		PlayerPrefsX.SetBool ("Card2_Active", card2.activeSelf);
 
 		// Card Reader
+		PlayerPrefsX.SetBool ("Card_Reader_Card_Flag1", cardReader.cardFlag1);
+		PlayerPrefsX.SetBool ("Card_Reader_Card_Flag2", cardReader.cardFlag2);
 
 		// Inventory
+		PlayerPrefsX.SetStringArray ("Inventory_Item_Tag_List", iic.getTagList ());
 
 	}
 }

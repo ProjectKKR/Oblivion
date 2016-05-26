@@ -15,6 +15,28 @@ public class CardReader : GameItems {
 	public bool cardFlag1 = true;
 	public bool cardFlag2 = true;
 
+	void Start() {
+		if (PlayerPrefs.HasKey ("Card_Reader_Card_Flag1")) {
+			cardFlag1 = PlayerPrefsX.GetBool ("Card_Reader_Card_Flag1");
+			if (!cardFlag1) {
+				redLight1.GetComponent<Renderer> ().sharedMaterial = redLightOff;
+				greenLight1.GetComponent<Renderer> ().sharedMaterial = greenLightOn;
+			}
+		}
+
+		if (PlayerPrefs.HasKey ("Card_Reader_Card_Flag2")) {
+			cardFlag2 = PlayerPrefsX.GetBool ("Card_Reader_Card_Flag2");
+			if (!cardFlag2) {
+				redLight2.GetComponent<Renderer> ().sharedMaterial = redLightOff;
+				greenLight2.GetComponent<Renderer> ().sharedMaterial = greenLightOn;
+			}
+		}
+
+		if (!cardFlag1 && !cardFlag2) {
+			EndingMenu.SetActive (true);
+		}
+	}
+
 	protected override bool EquippedItemCheck (GameItems equipped){
 		if (equipped == null) return false;
 		if (equipped.Equals (card1)) {

@@ -12,12 +12,36 @@ public class InventoryItemController : MonoBehaviour {
 	private GameObject[] PreviewList = new GameObject[10];
 	private int equipIndex; // 몇번째 아이템을 장착중인가
 
+	public int getEquipIndex() {
+		return equipIndex;
+	}
+
+	public string[] getTagList() {
+		string[] tagList = new string[itemList.Count];
+		for (int i = 0; i < itemList.Count; i++) {
+			tagList [i] = itemList [i].tag;
+			Debug.Log (tagList[i]);
+		}
+		return tagList;
+	}
+
 	void Start(){
 		for (int i = 0; i < maxItem; i++) {
 			PreviewList [i] = content.transform.GetChild (i).gameObject;
 		}
 		equipIndex = -1; // DEFAULT
+
+		if (PlayerPrefs.HasKey ("Inventory_Item_Tag_List")) {
+			string[] tagList = PlayerPrefsX.GetStringArray ("Inventory_Item_Tag_List");
+			for (int i = 0; i < tagList.Length; i++) {
+				GameObject.FindWithTag (tagList [i]).SetActive (true);
+				itemList.Add (GameObject.FindWithTag (tagList [i]).GetComponent <GameItems> ());
+				GameObject.FindWithTag (tagList [i]).SetActive (false);
+				Refresh ();
+			}
+		}
 	}
+
 	public void Add(GameItems item){
 		itemList.Add (item);
 		Refresh ();
