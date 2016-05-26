@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class MainDoor :  GameItems {
-
+	public GameObject EscapeSuccess;
 	public GameObject door;
 	public float speed = -1.1f;
 	private bool openFlag = false;
@@ -13,6 +13,7 @@ public class MainDoor :  GameItems {
 		else
 			door.transform.Translate (new Vector3 (0, 0, -1) * speed);
 		openFlag = !openFlag;
+		EscapeSuccess.SetActive (true);
 	}
 
 	public override void ChainOperation (int caseNum) {

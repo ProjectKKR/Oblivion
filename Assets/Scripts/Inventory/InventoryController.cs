@@ -9,6 +9,7 @@ public class InventoryController : MonoBehaviour, IPointerClickHandler {
 	private RawImage invPoint;
 	private int time = 0;
 	private bool opened = false;
+	private float animationStep = 20.0f;
 
 	public GameObject inventoryCanvas;
 	float intervalStart, intervalEnd;
@@ -16,26 +17,28 @@ public class InventoryController : MonoBehaviour, IPointerClickHandler {
 
 	void Start () {
 		invPoint = transform.GetChild (0).GetComponent<RawImage> ();
-		float height = inventoryCanvas.transform.GetComponent<RectTransform> ().rect.height;
-		intervalStart = 20.0f - height / 2;
-		intervalEnd = 140.0f - height / 2;
-		intervalStart2 = -60.0f - height / 2;
-		intervalEnd2 = 60.0f - height / 2;
+		float buttonHeight = transform.GetComponent<RectTransform> ().rect.height;
+		float planeHeight = invPlane.transform.GetComponent<RectTransform> ().rect.height;
+		float canvasHeight = inventoryCanvas.transform.GetComponent<RectTransform> ().rect.height;
+		intervalStart = buttonHeight / 2 - canvasHeight / 2;
+		intervalEnd = planeHeight + buttonHeight / 2 - canvasHeight / 2;
+		intervalStart2 = -planeHeight / 2 - canvasHeight / 2;
+		intervalEnd2 = planeHeight / 2 - canvasHeight / 2;
 		transform.localPosition = new Vector3 (0, intervalStart, 0);
 		invPlane.transform.localPosition = new Vector3 (0, intervalStart2, 0);
 
 	}
 
 	void Update () {
-		if (opened && time <= 20) {
-			transform.localPosition = new Vector3 (0, (time/20.0f) * (intervalEnd-intervalStart) + intervalStart, 0);
-			invPlane.transform.localPosition = new Vector3 (0, (time/20.0f) * (intervalEnd2-intervalStart2) + intervalStart2, 0);
-			invPoint.transform.eulerAngles = new Vector3 (0, 0, time / 20.0f * 180);
-			if (time<20) time++;
+		if (opened && time <= animationStep) {
+			transform.localPosition = new Vector3 (0, (time/animationStep) * (intervalEnd-intervalStart) + intervalStart, 0);
+			invPlane.transform.localPosition = new Vector3 (0, (time/animationStep) * (intervalEnd2-intervalStart2) + intervalStart2, 0);
+			invPoint.transform.eulerAngles = new Vector3 (0, 0, time / animationStep * 180);
+			if (time<animationStep) time++;
 		} else if ((!opened) && time >= 0) {
-			transform.localPosition = new Vector3 (0, (time/20.0f) * (intervalEnd-intervalStart) + intervalStart, 0);
-			invPlane.transform.localPosition = new Vector3 (0, (time/20.0f) * (intervalEnd2-intervalStart2) + intervalStart2, 0);
-			invPoint.transform.eulerAngles = new Vector3 (0, 0, time / 20.0f * 180);
+			transform.localPosition = new Vector3 (0, (time/animationStep) * (intervalEnd-intervalStart) + intervalStart, 0);
+			invPlane.transform.localPosition = new Vector3 (0, (time/animationStep) * (intervalEnd2-intervalStart2) + intervalStart2, 0);
+			invPoint.transform.eulerAngles = new Vector3 (0, 0, time / animationStep * 180);
 			if (time>0) time--;
 		}
 	}

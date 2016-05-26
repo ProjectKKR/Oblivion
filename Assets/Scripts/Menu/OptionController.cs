@@ -12,8 +12,4 @@ public class OptionController : MonoBehaviour {
 	void Update () {
 	
 	}
-
-	public void Change(){
-		MenuStatic.value = 2;
-	}
 }

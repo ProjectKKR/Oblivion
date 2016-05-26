@@ -3,7 +3,6 @@ using System.Collections;
 
 public class AlwaysTrigger : MonoBehaviour {
 	public GameObject PauseMenu;
-
 	// Use this for initialization
 	void Start () {
 		PauseMenu.SetActive (false);	
