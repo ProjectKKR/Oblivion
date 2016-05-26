@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour {
 	public GameObject UserInterface;
 	public GameObject WhiteFrame;
 	public VirtualJoystick_left jsL;
+	public DragView dragView;
 	public float moveSpeed;
 	public float terminalRotationSpeed = 25.0f;
 	public static InventoryItemController inventory;
@@ -24,11 +25,12 @@ public class PlayerController : MonoBehaviour {
 	private float pcUpDownAngle;
 	private bool zoomFlag;
 
+	private int beforeTouchCount = 0;
+
 	private int controlOption;
-	private bool UITouched = false;
 	private bool interactionEnable = true;
 	private bool cameraDragging = false;
-	private Vector3 prevMousePos;
+	private Vector2 prevMousePos;
 
 	// Sensor Input Stabilizer
 	private const int BUFFER_SIZE = 7;
@@ -120,37 +122,48 @@ public class PlayerController : MonoBehaviour {
 
 				/* TURN HORIZONTAL & VERTICAL*/
 				/* Control OPTION 0 */
+				/* Screen Drag Input */
 				if (controlOption == 0) {
+					if (Input.touchCount != beforeTouchCount) {
+						cameraDragging = false;
+					}
+					beforeTouchCount = Input.touchCount;
+
+					Vector2 currPos = dragView.GetInputVector ();
+					bool dragTouched = dragView.isTouched ();
+
 					if (Input.GetMouseButtonDown (0)) {
 						interactionEnable = false;
-						UITouched = IsPointerOverUIObject ();
-						prevMousePos = Input.mousePosition;
+						prevMousePos = currPos;
 					} else if (Input.GetMouseButton (0)) {
 						if (cameraDragging) {
-							// Horizontal Rotation
-							float dragHorizontalRotation = (Input.mousePosition.x - prevMousePos.x) / 10.0f;
-							transform.Rotate (0, dragHorizontalRotation, 0);
+							if (dragTouched) {
+								// Horizontal Rotation
+								float dragHorizontalRotation = -(currPos.x - prevMousePos.x) / 10.0f;
+								transform.Rotate (0, dragHorizontalRotation, 0);
+								// Vertical Rotation
+								Quaternion Identity = mainCamera.transform.rotation;
+								Vector3 euler = Identity.eulerAngles;
+								if (euler.x > 180)
+									euler.x -= 360;
+								float dragVerticalRotation = -(prevMousePos.y - currPos.y) / 8.0f;
+								euler.x += dragVerticalRotation;
+								if (euler.x < -80)
+									euler.x = -80;
+								if (euler.x > 80)
+									euler.x = 80;
+								mainCamera.transform.rotation = Quaternion.Euler (euler);
 
-							// Vertical Rotation
-							Quaternion Identity = mainCamera.transform.rotation;
-							Vector3 euler = Identity.eulerAngles;
-							if (euler.x > 180)
-								euler.x -= 360;
-							float dragVerticalRotation = (prevMousePos.y - Input.mousePosition.y) / 5.0f;
-							euler.x += dragVerticalRotation;
-							if (euler.x < -80)
-								euler.x = -80;
-							if (euler.x > 80)
-								euler.x = 80;
-							mainCamera.transform.rotation = Quaternion.Euler (euler);
-
-							prevMousePos = Input.mousePosition;
-						} else if ((Input.mousePosition - prevMousePos).magnitude > 20) {
-							prevMousePos = Input.mousePosition;
-							cameraDragging = true;
+								prevMousePos = currPos;
+							}
+						} else if ((currPos - prevMousePos).magnitude > 20) {
+							if (dragTouched) {
+								prevMousePos = currPos;
+								cameraDragging = true;
+							}
 						}
 					}
-					if (Input.GetMouseButtonUp(0)) {
+					if (Input.GetMouseButtonUp (0)) {
 						if (cameraDragging) {
 							cameraDragging = false;
 						} else {
@@ -219,8 +232,9 @@ public class PlayerController : MonoBehaviour {
 
 			if (interactionEnable && !cameraDragging && Input.GetMouseButtonUp (0)) {
 				ray = Camera.main.ScreenPointToRay (Input.mousePosition);
-				if (Physics.Raycast (ray, out hit, Mathf.Infinity)) {
-					if (!UITouched) {
+				int camDragLayermask = 1 << 8;
+				if (Physics.Raycast (ray, out hit, Mathf.Infinity, ~camDragLayermask)) {
+					if (!IsPointerOverUIObject()) {
 						GameObject clickObj = hit.transform.gameObject;
 						GameItems obj = clickObj.GetComponent<GameItems> ();
 						if (obj != null) {
@@ -266,7 +280,7 @@ public class PlayerController : MonoBehaviour {
 		eventDataCurrentPosition.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
 		List<RaycastResult> results = new List<RaycastResult>();
 		EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
-		return results.Count > 0;
+		return results.Count > 1;
 	}
 
 	public void ZoomIn(GameItems obj){
