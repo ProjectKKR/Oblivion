@@ -3,6 +3,13 @@ using UnityEngine.UI;
 using System.Collections;
 
 public class FiniteMoveManager2: FiniteMoveManager {
+
+	public override void Load() {
+		if (PlayerPrefs.HasKey ("Finite_Move_Puzzle_Round2")) {
+			gameObject.SetActive (PlayerPrefsX.GetBool ("Finite_Move_Puzzle_Round2"));
+		}
+	}
+
 	public override void Reset(){
 		targetCoords.Clear (); unitCoords.Clear (); unitCounts.Clear ();
 		targetCoords.Add (new Vector2 (5, 2));

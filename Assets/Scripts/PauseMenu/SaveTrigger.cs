@@ -12,6 +12,13 @@ public class SaveTrigger : MonoBehaviour {
 	public GameObject card2;
 	public CardReader cardReader;
 	public InventoryItemController iic;
+	public FiniteMoveManager1 round1;
+	public FiniteMoveManager2 round2;
+	public FiniteMoveManager3 round3;
+	public FiniteMoveManager4 round4;
+	public FiniteMoveManager5 round5;
+	public GameObject clear;
+	public NumberJump left;
 
 	public void Trigger(){
 		// Player Position & Rotation
@@ -31,8 +38,15 @@ public class SaveTrigger : MonoBehaviour {
 		PlayerPrefsX.SetBoolArray ("Computer_Clear_Flag", computer.getClearFlag ());
 
 		// Computer Left Screen
+		PlayerPrefsX.SetBool ("Monitor_Left_Active", left.gameObject.activeSelf);
 
 		// Finite Move Puzzle
+		PlayerPrefsX.SetBool ("Finite_Move_Puzzle_Round1", round1.gameObject.activeSelf);
+		PlayerPrefsX.SetBool ("Finite_Move_Puzzle_Round2", round2.gameObject.activeSelf);
+		PlayerPrefsX.SetBool ("Finite_Move_Puzzle_Round3", round3.gameObject.activeSelf);
+		PlayerPrefsX.SetBool ("Finite_Move_Puzzle_Round4", round4.gameObject.activeSelf);
+		PlayerPrefsX.SetBool ("Finite_Move_Puzzle_Round5", round5.gameObject.activeSelf);
+		PlayerPrefsX.SetBool ("Finite_Move_Puzzle_Clear", clear.gameObject.activeSelf);
 
 		// Vault Interaction
 		PlayerPrefsX.SetBool ("Valut1_Door_Interactable", vd1.interactable);

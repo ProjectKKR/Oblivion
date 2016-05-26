@@ -17,7 +17,9 @@ public abstract class FiniteMoveManager : MonoBehaviour {
 	public List<int> unitCounts = new List<int> ();
 	private Vector2[] dir = new Vector2[4]{new Vector2(1,0),new Vector2(0,1),new Vector2(-1,0),new Vector2(0,-1)};
 	public abstract void Reset ();
+	public abstract void Load ();
 	void Start () {
+		Load ();
 		targetObjs.Clear ();
 		unitObjs.Clear ();
 		for (int i = 0; i < N; i++) {
