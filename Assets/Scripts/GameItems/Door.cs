@@ -24,7 +24,6 @@ public class Door :  GameItems {
 			openAudio.Play ();
 		}
 		else {
-			AudioSource sound = GetComponent<AudioSource> ();
 			closeAudio.Play ();
 		}
 	}

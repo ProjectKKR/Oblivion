@@ -5,6 +5,6 @@ using System.Collections;
 public class BackToTheMainTrigger : MonoBehaviour {
 
 	public void Trigger(){
-		SceneManager.LoadScene ("Menu");
+		SceneManager.LoadScene ("MainMenu");
 	}
 }
