@@ -6,6 +6,10 @@ public class SaveTrigger : MonoBehaviour {
 	public PlayerController player;
 	public Camera mainCamera;
 	public Computer computer;
+	public VaultDoor vd1;
+	public VaultDoor vd2;
+	public GameObject card1;
+	public GameObject card2;
 
 	public void Trigger(){
 		// Player Position & Rotation
@@ -23,6 +27,24 @@ public class SaveTrigger : MonoBehaviour {
 		PlayerPrefsX.SetIntArray ("Computer_Text", computer.getInputCode());
 		PlayerPrefs.SetInt ("Computer_Text_Length", computer.getLen ());
 		PlayerPrefsX.SetBoolArray ("Computer_Clear_Flag", computer.getClearFlag ());
+
+		// Computer Left Screen
+
+		// Finite Move Puzzle
+
+		// Vault Interaction
+		PlayerPrefsX.SetBool ("Valut1_Door_Interactable", vd1.interactable);
+		PlayerPrefsX.SetBool ("Valut2_Door_Interactable", vd2.interactable);
+		PlayerPrefs.SetFloat ("Valut1_Door_Open_Flag", vd1.getOpenFlag ());
+		PlayerPrefs.SetFloat ("Valut2_Door_Open_Flag", vd2.getOpenFlag ());
+
+		// Card
+		PlayerPrefsX.SetBool ("Card1_Active", card1.activeSelf);
+		PlayerPrefsX.SetBool ("Card2_Active", card2.activeSelf);
+
+		// Card Reader
+
+		// Inventory
 
 	}
 }

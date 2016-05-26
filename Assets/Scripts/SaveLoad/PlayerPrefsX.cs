@@ -1,4 +1,5 @@
 ﻿// ArrayPrefs2 v 1.4
+// http://wiki.unity3d.com/index.php/ArrayPrefs2
 
 using UnityEngine;
 using System;
