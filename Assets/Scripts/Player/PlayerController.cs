@@ -10,7 +10,6 @@ public class PlayerController : MonoBehaviour {
 	public GameObject UserInterface;
 	public GameObject WhiteFrame;
 	public VirtualJoystick_left jsL;
-	public VirtualJoystick_right jsR;
 	public float moveSpeed;
 	public float terminalRotationSpeed = 25.0f;
 	public static InventoryItemController inventory;
@@ -23,12 +22,21 @@ public class PlayerController : MonoBehaviour {
 	private Quaternion originalRot;
 	private Rigidbody rb;
 	private float pcUpDownAngle;
-	private float[] accelArray = new float[10];
-	private float[] compassArray = new float[10];
+	private bool zoomFlag;
+
+	private int controlOption;
+	private bool UITouched = false;
+	private bool interactionEnable = true;
+	private bool cameraDragging = false;
+	private Vector3 prevMousePos;
+
+	// Sensor Input Stabilizer
+	private const int BUFFER_SIZE = 7;
+	private float[] accelerometerBuffer = new float[BUFFER_SIZE];
+	private float[] compassBuffer = new float[BUFFER_SIZE];
 	private float accelSum = 0.0f, compassSum = 0.0f;
 	private int accelIdx = 0, compassIdx = 0;
-	private bool zoomFlag;
-	private const int NUM = 7;
+	//
 
 	public bool getZoomFlag() {
 		return zoomFlag;
@@ -49,12 +57,13 @@ public class PlayerController : MonoBehaviour {
 		rb.maxAngularVelocity = terminalRotationSpeed;
 		inventory = inventoryTemp;
 
-		for (int i = 0; i < 10; i++) {
-			accelArray [i] = 0.0f;
-			compassArray [i] = 0.0f;
+		for (int i = 0; i < BUFFER_SIZE; i++) {
+			accelerometerBuffer [i] = 0.0f;
+			compassBuffer [i] = 0.0f;
 		}
 		pcUpDownAngle = 0.0f;
 
+		// ONLY ENABLE (OPTION 1)
 		Input.compass.enabled = true;
 		//while (Mathf.Abs (Input.compass.magneticHeading) < 1e-3)
 		if (PlayerPrefs.HasKey ("Player_Position")) {
@@ -85,6 +94,10 @@ public class PlayerController : MonoBehaviour {
 				mainCamera.transform.rotation = PlayerPrefsX.GetQuaternion ("Camera_Rotation");
 			rb.velocity = Vector3.zero;
 		}
+
+		// Option data should be loaded here
+		// '0' for drag, '1' for acc, mag sensor input
+		controlOption = 0;
 	}
 
 	void Update () {
@@ -94,10 +107,8 @@ public class PlayerController : MonoBehaviour {
 
 		else {
 			if (!zoomFlag) {
-				/* Move Around & Rotate LEFT and RIGHT */
-				/*-----------------------------------------------*/
-
-				MoveVector = PoolRightInput ();
+				/* MOVE AROUND */
+				MoveVector = LeftJoystickInput ();
 				Vector3 v = MoveVector * moveSpeed;
 				rb.AddRelativeForce (v * 20);
 				float norm = rb.velocity.magnitude;
@@ -105,75 +116,112 @@ public class PlayerController : MonoBehaviour {
 					rb.velocity = rb.velocity.normalized * 0.8f * norm;
 				if (MoveVector == Vector3.zero)
 					rb.velocity = Vector3.zero;
-				gameObject.transform.Rotate (new Vector3 (0, jsR.Turn () * 2.3f, 0), Space.World);
 
-				/*
-				MoveVector = PoolRightInput ();
-				Vector3 v = MoveVector * moveSpeed;
-				rb.AddRelativeForce (v * 20);
-				float norm = rb.velocity.magnitude;
-				if (rb.velocity.magnitude > 0.8f * norm)
-					rb.velocity = rb.velocity.normalized * 0.8f * norm;
-				if (MoveVector == Vector3.zero)
-					rb.velocity = Vector3.zero;
-				//transform.Rotate (new Vector3 (0, jsR.Turn () * 2.3f, 0), Space.World);
-				float compassAngle = Input.compass.magneticHeading;
-				compassSum = 0.0f;
-				float coefficient = 1.0f;
-				compassArray [compassIdx] = compassAngle;
-				for (int temp = 0, i = compassIdx; temp < NUM; temp++,i = (i + 1) % NUM) {
-					float t = compassArray [i];
-					if (Mathf.Abs (t - compassAngle) > 180.0f) {
-						float t1 = t - 360.0f;
-						float t2 = t + 360.0f;
-						if (Mathf.Abs (t1 - compassAngle) > Mathf.Abs (t2 - compassAngle))
-							t = t2;
-						else
-							t = t1;
+
+				/* TURN HORIZONTAL & VERTICAL*/
+				/* Control OPTION 0 */
+				if (controlOption == 0) {
+					if (Input.GetMouseButtonDown (0)) {
+						interactionEnable = false;
+						UITouched = IsPointerOverUIObject ();
+						if (!UITouched) {
+							prevMousePos = Input.mousePosition;
+						}
+					} else if (Input.GetMouseButton (0)) {
+						if (cameraDragging) {
+							// Horizontal Rotation
+							float dragHorizontalRotation = (Input.mousePosition.x - prevMousePos.x) / 10.0f;
+							transform.Rotate (0, dragHorizontalRotation, 0);
+
+							// Vertical Rotation
+							Quaternion Identity = mainCamera.transform.rotation;
+							Vector3 euler = Identity.eulerAngles;
+							if (euler.x > 180)
+								euler.x -= 360;
+							float dragVerticalRotation = (prevMousePos.y - Input.mousePosition.y) / 5.0f;
+							euler.x += dragVerticalRotation;
+							if (euler.x < -80)
+								euler.x = -80;
+							if (euler.x > 80)
+								euler.x = 80;
+							mainCamera.transform.rotation = Quaternion.Euler (euler);
+
+							prevMousePos = Input.mousePosition;
+						} else if ((Input.mousePosition - prevMousePos).magnitude > 20) {
+							cameraDragging = true;
+						}
 					}
-					coefficient /= 2.0f;
-					compassSum += t * coefficient;
-				}
-				compassSum += compassAngle * coefficient;
-				compassIdx = (compassIdx + 1) % NUM;
+					if (Input.GetMouseButtonUp(0)) {
+						if (cameraDragging) {
+							cameraDragging = false;
+						} else {
+							interactionEnable = true;
+						}
+					}
+				} // End Control OPTION 0
 
-				transform.rotation = Quaternion.Euler(0,compassSum,0);
-				*/
 
-				/* Rotate UP and Down*/
-				/*-----------------------------------------------*/
-				if (Input.GetKey (KeyCode.J)) {
-					pcUpDownAngle -= 1.0f;
-				} else if (Input.GetKey (KeyCode.K)) {
-					pcUpDownAngle += 1.0f;
-				}
+				/* Control OPTION 1 */
+				/* Accelerometer & Compass Sensor */
+				else {
+					/* Horizontal Rotation */
+					float compassAngle = Input.compass.magneticHeading;
+					compassSum = 0.0f;
+					float coefficient = 1.0f;
+					compassBuffer [compassIdx] = compassAngle;
+					for (int temp = 0, i = compassIdx; temp < BUFFER_SIZE; temp++,i = (i + 1) % BUFFER_SIZE) {
+						float t = compassBuffer [i];
+						if (Mathf.Abs (t - compassAngle) > 180.0f) {
+							float t1 = t - 360.0f;
+							float t2 = t + 360.0f;
+							if (Mathf.Abs (t1 - compassAngle) > Mathf.Abs (t2 - compassAngle))
+								t = t2;
+							else
+								t = t1;
+						}
+						coefficient /= 2.0f;
+						compassSum += t * coefficient;
+					}
+					compassSum += compassAngle * coefficient;
+					compassIdx = (compassIdx + 1) % BUFFER_SIZE;
 
-				Vector3 Accel = Input.acceleration;
-				float angle = 0;
-				if (Accel != Vector3.zero)
-					angle = Mathf.Atan2 (Accel.z, -Accel.y) * Mathf.Rad2Deg;
-				accelSum += angle - accelArray [accelIdx];
-				accelArray [accelIdx] = angle;
-				accelIdx = (accelIdx + 1) % NUM;
+					transform.rotation = Quaternion.Euler (0, compassSum, 0);
 
-				Quaternion Identity = transform.rotation;
-				Quaternion Rot = Identity;
-				Vector3 euler = Rot.eulerAngles;
-				euler.x = -accelSum / (float)NUM - pcUpDownAngle;
-				if (euler.x < -80)
-					euler.x = -80;
-				if (euler.x > 80)
-					euler.x = 80;
-				mainCamera.transform.rotation = Quaternion.Euler (euler);
-				/*-----------------------------------------------*/
+
+					/* Vertical Rotation */
+					if (Input.GetKey (KeyCode.J)) {
+						pcUpDownAngle -= 1.0f;
+					} else if (Input.GetKey (KeyCode.K)) {
+						pcUpDownAngle += 1.0f;
+					}
+
+					Vector3 Accel = Input.acceleration;
+					float angle = 0;
+					if (Accel != Vector3.zero)
+						angle = Mathf.Atan2 (Accel.z, -Accel.y) * Mathf.Rad2Deg;
+					accelSum += angle - accelerometerBuffer [accelIdx];
+					accelerometerBuffer [accelIdx] = angle;
+					accelIdx = (accelIdx + 1) % BUFFER_SIZE;
+
+					Quaternion Identity = transform.rotation;
+					Quaternion Rot = Identity;
+					Vector3 euler = Rot.eulerAngles;
+					euler.x = -accelSum / (float)BUFFER_SIZE - pcUpDownAngle;
+					if (euler.x < -80)
+						euler.x = -80;
+					if (euler.x > 80)
+						euler.x = 80;
+					mainCamera.transform.rotation = Quaternion.Euler (euler);
+				} // End Control OPTION 1
+
 			} else {
 				rb.velocity = Vector3.zero;
 			}
 
-			if (Input.GetMouseButtonDown (0)) {
+			if (interactionEnable && !cameraDragging && Input.GetMouseButtonUp (0)) {
 				ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 				if (Physics.Raycast (ray, out hit, Mathf.Infinity)) {
-					if (!IsPointerOverUIObject ()) {
+					if (!UITouched) {
 						GameObject clickObj = hit.transform.gameObject;
 						GameItems obj = clickObj.GetComponent<GameItems> ();
 						if (obj != null) {
@@ -205,7 +253,7 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
-	private Vector3 PoolRightInput(){
+	private Vector3 LeftJoystickInput(){
 		Vector3 dir = new Vector3();
 		dir.x = jsL.Horizontal ();
 		dir.z = jsL.Vertical ();
