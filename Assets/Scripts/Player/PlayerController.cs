@@ -124,9 +124,7 @@ public class PlayerController : MonoBehaviour {
 					if (Input.GetMouseButtonDown (0)) {
 						interactionEnable = false;
 						UITouched = IsPointerOverUIObject ();
-						if (!UITouched) {
-							prevMousePos = Input.mousePosition;
-						}
+						prevMousePos = Input.mousePosition;
 					} else if (Input.GetMouseButton (0)) {
 						if (cameraDragging) {
 							// Horizontal Rotation
@@ -148,6 +146,7 @@ public class PlayerController : MonoBehaviour {
 
 							prevMousePos = Input.mousePosition;
 						} else if ((Input.mousePosition - prevMousePos).magnitude > 20) {
+							prevMousePos = Input.mousePosition;
 							cameraDragging = true;
 						}
 					}
