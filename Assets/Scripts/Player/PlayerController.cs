@@ -3,8 +3,9 @@ using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Networking;
 
-public class PlayerController : MonoBehaviour {
+public class PlayerController : NetworkBehaviour {
 	public Camera mainCamera;
 	public GameObject PauseMenu;
 	public GameObject UserInterface;
@@ -99,10 +100,13 @@ public class PlayerController : MonoBehaviour {
 
 		// Option data should be loaded here
 		// '0' for drag, '1' for acc, mag sensor input
-		controlOption = 1;
+		controlOption = 0;
 	}
 
 	void Update () {
+		if (!isLocalPlayer) {
+		}
+			
 		if (PauseMenu.activeInHierarchy) {
 			rb.velocity = Vector3.zero;
 		}
