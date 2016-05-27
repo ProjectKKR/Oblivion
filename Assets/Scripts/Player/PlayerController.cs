@@ -33,7 +33,7 @@ public class PlayerController : MonoBehaviour {
 	private Vector2 prevMousePos;
 
 	// Sensor Input Stabilizer
-	private const int BUFFER_SIZE = 7;
+	private const int BUFFER_SIZE = 9;
 	private float[] accelerometerBuffer = new float[BUFFER_SIZE];
 	private float[] compassBuffer = new float[BUFFER_SIZE];
 	private float accelSum = 0.0f, compassSum = 0.0f;
