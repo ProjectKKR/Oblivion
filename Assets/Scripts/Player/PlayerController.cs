@@ -41,6 +41,8 @@ public class PlayerController : NetworkBehaviour {
 	private int accelIdx = 0, compassIdx = 0;
 	//
 
+	private string camName;
+
 	public bool getZoomFlag() {
 		return zoomFlag;
 	}
@@ -101,12 +103,28 @@ public class PlayerController : NetworkBehaviour {
 		// Option data should be loaded here
 		// '0' for drag, '1' for acc, mag sensor input
 		controlOption = 0;
+
+		for (int i = 1; i <= 4; i++) {
+			if (GameObject.Find ("cam" + i.ToString ()) != null) {
+				print (GameObject.Find ("cam" + i.ToString ()));
+				continue;
+			}
+			camName = "cam" + i.ToString ();
+			break;
+		}
+		gameObject.transform.GetChild (0).name = camName;
 	}
 
 	void Update () {
-		if (!isLocalPlayer) {
+		/*if (!isLocalPlayer) {
+			return;
+		}*/
+		for (int i = 1; i <= 4; i++) {
+			if (GameObject.Find ("cam" + i.ToString ()) != null) {
+				GameObject.Find ("cam" + i.ToString ()).SetActive (false);
+			}
 		}
-			
+		gameObject.transform.GetChild (0).gameObject.SetActive (true);
 		if (PauseMenu.activeInHierarchy) {
 			rb.velocity = Vector3.zero;
 		}
