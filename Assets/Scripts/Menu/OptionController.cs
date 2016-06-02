@@ -2,14 +2,12 @@
 using System.Collections;
 
 public class OptionController : MonoBehaviour {
-
+	public GameObject SubOption;
 	// Use this for initialization
 	void Start () {
-	
+		SubOption.SetActive (false);
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+	public void LoadSubOption(){
+		SubOption.SetActive (true);
 	}
 }

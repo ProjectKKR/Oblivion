@@ -99,7 +99,7 @@ public class PlayerController : MonoBehaviour {
 
 		// Option data should be loaded here
 		// '0' for drag, '1' for acc, mag sensor input
-		controlOption = 0;
+		controlOption = Static.GetControlOption();
 	}
 
 	void Update () {
@@ -123,7 +123,7 @@ public class PlayerController : MonoBehaviour {
 				/* TURN HORIZONTAL & VERTICAL*/
 				/* Control OPTION 0 */
 				/* Screen Drag Input */
-				if (controlOption == 0) {
+				if (controlOption == 3) {
 					if (Input.touchCount != beforeTouchCount) {
 						cameraDragging = false;
 					}
@@ -170,12 +170,12 @@ public class PlayerController : MonoBehaviour {
 							interactionEnable = true;
 						}
 					}
-				} // End Control OPTION 0
+				} // End Control OPTION 2
 
 
 				/* Control OPTION 1 */
 				/* Accelerometer & Compass Sensor */
-				else {
+				else if (controlOption == 1){
 					/* Horizontal Rotation */
 					float compassAngle = Input.compass.magneticHeading;
 					compassSum = 0.0f;
