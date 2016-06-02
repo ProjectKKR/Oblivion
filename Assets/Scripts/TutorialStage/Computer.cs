@@ -10,7 +10,7 @@ public class Computer : MonoBehaviour {
 
 	private int[] inputCode = new int[10];
 	private int len = 0, N = 4;
-	private string[] activateCode=new string[4]{"301314", "1920", "201411111", "2673985"};
+	private string[] activateCode=new string[4]{"301314", "1730", "201411111", "2673985"};
 	private bool[] clearFlag = new bool[4]{false, false, false, false};
 	private Renderer[] redLight = new Renderer[4];
 	private Renderer[] greenLight = new Renderer[4];

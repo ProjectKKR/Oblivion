@@ -99,7 +99,7 @@ public class PlayerController : MonoBehaviour {
 
 		// Option data should be loaded here
 		// '0' for drag, '1' for acc, mag sensor input
-		controlOption = 1;
+		controlOption = 0;
 	}
 
 	void Update () {
