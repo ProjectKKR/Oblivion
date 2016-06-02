@@ -172,6 +172,67 @@ public class PlayerController : MonoBehaviour {
 					}
 				} // End Control OPTION 2
 
+				/* Control OPTION 2 */
+				/* Accelerometer & Horizontal Rotaion with Drag */
+				else if (controlOption == 2) {
+					if (Input.GetKey (KeyCode.J)) {
+						pcUpDownAngle -= 1.0f;
+					} else if (Input.GetKey (KeyCode.K)) {
+						pcUpDownAngle += 1.0f;
+					}
+
+					Vector3 Accel = Input.acceleration;
+					float angle = 0;
+					if (Accel != Vector3.zero)
+						angle = Mathf.Atan2 (Accel.z, -Accel.y) * Mathf.Rad2Deg;
+					accelSum += angle - accelerometerBuffer [accelIdx];
+					accelerometerBuffer [accelIdx] = angle;
+					accelIdx = (accelIdx + 1) % BUFFER_SIZE;
+
+					Quaternion Identity = transform.rotation;
+					Quaternion Rot = Identity;
+					Vector3 euler = Rot.eulerAngles;
+					euler.x = -accelSum / (float)BUFFER_SIZE - pcUpDownAngle;
+					if (euler.x < -80)
+						euler.x = -80;
+					if (euler.x > 80)
+						euler.x = 80;
+					mainCamera.transform.rotation = Quaternion.Euler (euler);
+
+					if (Input.touchCount != beforeTouchCount) {
+						cameraDragging = false;
+					}
+					beforeTouchCount = Input.touchCount;
+
+					Vector2 currPos = dragView.GetInputVector ();
+					bool dragTouched = dragView.isTouched ();
+
+					if (Input.GetMouseButtonDown (0)) {
+						interactionEnable = false;
+						prevMousePos = currPos;
+					} else if (Input.GetMouseButton (0)) {
+						if (cameraDragging) {
+							if (dragTouched) {
+								// Horizontal Rotation
+								float dragHorizontalRotation = -(currPos.x - prevMousePos.x) / 10.0f;
+								transform.Rotate (0, dragHorizontalRotation, 0);
+								prevMousePos = currPos;
+							}
+						} else if ((currPos - prevMousePos).magnitude > 20) {
+							if (dragTouched) {
+								prevMousePos = currPos;
+								cameraDragging = true;
+							}
+						}
+					}
+					if (Input.GetMouseButtonUp (0)) {
+						if (cameraDragging) {
+							cameraDragging = false;
+						} else {
+							interactionEnable = true;
+						}
+					}
+				}
 
 				/* Control OPTION 1 */
 				/* Accelerometer & Compass Sensor */
