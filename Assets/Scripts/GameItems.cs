@@ -6,6 +6,9 @@ public abstract class GameItems : MonoBehaviour {
 	public bool interactable;
 	public bool collectable;
 	public bool zoomable;
+	public bool mixable;
+	public GameItems mixPartner;
+	public GameItems mixResult;
 	public Texture preview;
 
 	protected Vector3 zoomLocation;

@@ -10,7 +10,7 @@ public class InventoryItemController : MonoBehaviour {
 
 	private List<GameItems> itemList = new List<GameItems>();
 	private GameObject[] PreviewList = new GameObject[10];
-	private int equipIndex; // 몇번째 아이템을 장착중인가
+	private int equipIndex; // equipped item index
 
 	public int getEquipIndex() {
 		return equipIndex;
@@ -69,7 +69,16 @@ public class InventoryItemController : MonoBehaviour {
 		if (equipIndex == number) {
 			equipIndex = -1;
 		} else {
-			equipIndex = number;
+			if (isMixable (equipIndex, number)) {
+				GameItems item1 = itemList [equipIndex];
+				GameItems item2 = itemList [number];
+				Add (item1.mixResult);
+				Delete (item1);
+				Delete (item2);
+				equipIndex = -1;
+			} else {
+				equipIndex = number;
+			}
 		}
 		Refresh ();
 	}
@@ -100,5 +109,14 @@ public class InventoryItemController : MonoBehaviour {
 		if (equipIndex == -1 || equipIndex >= itemList.Count)
 			return null;
 		return itemList [equipIndex];
+	}
+
+	private bool isMixable(int index1, int index2) {
+		if (itemList [index1].mixable) {
+			if (itemList [index1].mixPartner.Equals(itemList[index2])) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
