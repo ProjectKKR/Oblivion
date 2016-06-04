@@ -3,6 +3,7 @@ using System.Collections;
 
 public class VaultDoor1 : VaultDoor {
 	void Start() {
+		open = GetComponent<AudioSource> ();
 		if (PlayerPrefs.HasKey ("Valut1_Door_Interactable")) {
 			interactable = PlayerPrefsX.GetBool ("Valut1_Door_Interactable");
 		}
