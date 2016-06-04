@@ -8,6 +8,12 @@ public class StartController : MonoBehaviour {
 	void Start () {
 		SubStart.SetActive (false);
 	}
+
+	void Update(){
+		if (Input.GetKey (KeyCode.Escape)) {
+			SubStart.SetActive (false);
+		}
+	}
 	public void LoadSubStart(){
 		SubStart.SetActive (true);
 		//SceneManager.LoadScene ("Oblivion");

@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour {
 	private Rigidbody rb;
 	private float pcUpDownAngle;
 	private bool zoomFlag;
-	private bool zooming;
+	public bool zooming;
 	private Vector3 deltaPos;
 	private Quaternion sourceRot, destRot;
 	private int deltaCount;
@@ -34,6 +34,7 @@ public class PlayerController : MonoBehaviour {
 	private int controlOption;
 	private bool interactionEnable = true;
 	private bool cameraDragging = false;
+	private const int dragPixelThreshold = 30;
 	private Vector2 prevMousePos;
 
 	// Sensor Input Stabilizer
@@ -58,6 +59,8 @@ public class PlayerController : MonoBehaviour {
 
 	void Start () {
 		zoomFlag = false;
+		zooming = false;
+		deltaCount = 0;
 		WhiteFrame.SetActive (false);
 		rb = gameObject.GetComponent<Rigidbody> ();
 		rb.maxAngularVelocity = terminalRotationSpeed;
@@ -167,7 +170,7 @@ public class PlayerController : MonoBehaviour {
 
 								prevMousePos = currPos;
 							}
-						} else if ((currPos - prevMousePos).magnitude > 20) {
+						} else if ((currPos - prevMousePos).magnitude > dragPixelThreshold) {
 							if (dragTouched) {
 								prevMousePos = currPos;
 								cameraDragging = true;
@@ -229,7 +232,7 @@ public class PlayerController : MonoBehaviour {
 								transform.Rotate (0, dragHorizontalRotation, 0);
 								prevMousePos = currPos;
 							}
-						} else if ((currPos - prevMousePos).magnitude > 20) {
+						} else if ((currPos - prevMousePos).magnitude > dragPixelThreshold) {
 							if (dragTouched) {
 								prevMousePos = currPos;
 								cameraDragging = true;
@@ -251,7 +254,7 @@ public class PlayerController : MonoBehaviour {
 					/* Horizontal Rotation */
 					float compassAngle = Input.compass.magneticHeading;
 					compassSum = 0.0f;
-					float coefficient = 1.0f;
+					float coefficient = 1.0f / (float)BUFFER_SIZE;
 					compassBuffer [compassIdx] = compassAngle;
 					for (int temp = 0, i = compassIdx; temp < BUFFER_SIZE; temp++,i = (i + 1) % BUFFER_SIZE) {
 						float t = compassBuffer [i];
@@ -263,7 +266,6 @@ public class PlayerController : MonoBehaviour {
 							else
 								t = t1;
 						}
-						coefficient /= 2.0f;
 						compassSum += t * coefficient;
 					}
 					compassSum += compassAngle * coefficient;
@@ -356,6 +358,7 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	public void ZoomIn(GameItems obj){
+		print ("ZoomIn");
 		Vector3 zoomPos = obj.ZoomLocation;
 		Quaternion zoomRot = obj.ZoomRotation;
 		if (!zoomFlag) {
@@ -384,7 +387,7 @@ public class PlayerController : MonoBehaviour {
 		zooming = true;
 		deltaCount = 10;
 		deltaPos = (originalPos - mainCamera.transform.position)/(float)deltaCount;
-		sourceRot = mainCamera.transform.rotation;;
+		sourceRot = mainCamera.transform.rotation;
 		destRot = originalRot;
 		/*mainCamera.transform.Translate (originalPos - mainCamera.transform.position, Space.World);
 		mainCamera.transform.rotation = originalRot;*/

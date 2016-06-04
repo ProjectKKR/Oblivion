@@ -20,19 +20,33 @@ public class OptionControlTrigger: MonoBehaviour {
 		}
 	}
 
+	public void CheckBoxReposition(){
+		switch (Static.GetControlOption()) {
+		case 1:
+			checkbox.transform.localPosition = new Vector3 (-350, 5, 0);
+			break;
+		case 2:
+			checkbox.transform.localPosition = new Vector3 (-3, 5, 0);
+			break;
+		case 3:
+			checkbox.transform.localPosition = new Vector3 (367, 5, 0);
+			break;
+		}
+	}
+
 	public void Option1(){
 		Static.SetControlOption (1);
-		checkbox.transform.localPosition = new Vector3 (-350, 5, 0);
+		CheckBoxReposition();
 		PlayerPrefs.SetInt ("Control_Option", 1);
 	}
 	public void Option2(){
 		Static.SetControlOption (2);
-		checkbox.transform.localPosition = new Vector3 (-3,5,0);
+		CheckBoxReposition ();
 		PlayerPrefs.SetInt ("Control_Option", 2);
 	}
 	public void Option3(){
 		Static.SetControlOption (3);
-		checkbox.transform.localPosition = new Vector3 (367,5,0);
+		CheckBoxReposition ();
 		PlayerPrefs.SetInt ("Control_Option", 3);
 	}
 }
