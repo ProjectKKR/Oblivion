@@ -112,6 +112,8 @@ public class InventoryItemController : MonoBehaviour {
 	}
 
 	private bool isMixable(int index1, int index2) {
+		if (index1 < 0 || index1 >= itemList.Count)
+			return false;
 		if (itemList [index1].mixable) {
 			if (itemList [index1].mixPartner.Equals(itemList[index2])) {
 				return true;
