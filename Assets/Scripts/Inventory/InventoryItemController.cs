@@ -69,7 +69,7 @@ public class InventoryItemController : MonoBehaviour {
 		if (equipIndex == number) {
 			equipIndex = -1;
 		} else {
-			if (isMixable (equipIndex, number)) {
+			if (IsMixable (equipIndex, number)) {
 				GameItems item1 = itemList [equipIndex];
 				GameItems item2 = itemList [number];
 				Add (item1.mixResult);
@@ -111,7 +111,7 @@ public class InventoryItemController : MonoBehaviour {
 		return itemList [equipIndex];
 	}
 
-	private bool isMixable(int index1, int index2) {
+	private bool IsMixable(int index1, int index2) {
 		if (index1 < 0 || index1 >= itemList.Count)
 			return false;
 		if (itemList [index1].mixable) {
