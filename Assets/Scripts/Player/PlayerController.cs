@@ -24,6 +24,10 @@ public class PlayerController : MonoBehaviour {
 	private Rigidbody rb;
 	private float pcUpDownAngle;
 	private bool zoomFlag;
+	private bool zooming;
+	private Vector3 deltaPos;
+	private Quaternion sourceRot, destRot;
+	private int deltaCount;
 
 	private int beforeTouchCount = 0;
 
@@ -105,8 +109,15 @@ public class PlayerController : MonoBehaviour {
 	void Update () {
 		if (PauseMenu.activeInHierarchy) {
 			rb.velocity = Vector3.zero;
+		} else if (zooming) {
+			if (deltaCount>0) {
+				deltaCount--;
+				mainCamera.transform.Translate (deltaPos, Space.World);
+				mainCamera.transform.rotation = Quaternion.Slerp (sourceRot, destRot, 1.0f - (float)deltaCount / 10.0f);
+			} else {
+				zooming = false;
+			}
 		}
-
 		else {
 			if (!zoomFlag) {
 				/* MOVE AROUND */
@@ -354,15 +365,29 @@ public class PlayerController : MonoBehaviour {
 			return;
 		zoomFlag = true;
 		TurnOffUI ();
-		mainCamera.transform.Translate (zoomPos - originalPos,Space.World);
-		mainCamera.transform.rotation = zoomRot;
+
+		zooming = true;
+		deltaCount = 10;
+		deltaPos = (zoomPos - originalPos)/(float)deltaCount;
+		sourceRot = originalRot;
+		destRot = zoomRot;
+
+		/*
+		 * mainCamera.transform.Translate (zoomPos - originalPos,Space.World);
+		 * mainCamera.transform.rotation = zoomRot;
+		 */
 		rb.velocity = Vector3.zero;
 	}
 
 	public void ZoomOut(){
 		zoomFlag = false;
-		mainCamera.transform.Translate (originalPos - mainCamera.transform.position, Space.World);
-		mainCamera.transform.rotation = originalRot;
+		zooming = true;
+		deltaCount = 10;
+		deltaPos = (originalPos - mainCamera.transform.position)/(float)deltaCount;
+		sourceRot = mainCamera.transform.rotation;;
+		destRot = originalRot;
+		/*mainCamera.transform.Translate (originalPos - mainCamera.transform.position, Space.World);
+		mainCamera.transform.rotation = originalRot;*/
 		TurnOnUI ();
 	}
 
