@@ -8,10 +8,10 @@ TrueTypeFontImporter:
   forceTextureCase: -2
   characterSpacing: 1
   characterPadding: 0
-  includeFontData: 1
+  includeFontData: 0
   fontNames: []
   fallbackFontReferences:
-  - {fileID: 12800000, guid: dfa7d8807dd06e74887f1fd8c480d133, type: 3}
+  - {fileID: 12800000, guid: 3a5ddd708583f5f479907aca83f0d1df, type: 3}
   customCharacters: 
   fontRenderingMode: 0
   ascentCalculationMode: 1
