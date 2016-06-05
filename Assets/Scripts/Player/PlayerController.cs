@@ -359,6 +359,7 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	public void ZoomIn(GameItems obj){
+		rb.velocity = Vector3.zero;
 		Vector3 zoomPos = obj.ZoomLocation;
 		Quaternion zoomRot = obj.ZoomRotation;
 		if (!zoomFlag) {
