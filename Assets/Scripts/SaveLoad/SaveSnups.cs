@@ -55,8 +55,9 @@ public class SaveSnups : MonoBehaviour {
 		PlayerPrefs.SetFloat ("Valut2_Door_Open_Flag", vd2.getOpenFlag ());
 
 		// Card
-		//		PlayerPrefsX.SetBool ("Card1_Active", card1.activeSelf);
-		//		PlayerPrefsX.SetBool ("Card2_Active", card2.activeSelf);
+		PlayerPrefsX.SetVector3 ("Card1_Scale", card1.transform.localScale);
+		Debug.Log (card1.transform.localScale);
+		PlayerPrefsX.SetVector3 ("Card2_Scale", card2.transform.localScale);
 
 		// Card Reader
 		PlayerPrefsX.SetBool ("Card_Reader_Card_Flag1", cardReader.cardFlag1);
