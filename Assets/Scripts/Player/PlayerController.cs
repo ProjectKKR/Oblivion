@@ -325,8 +325,8 @@ public class PlayerController : MonoBehaviour {
 								if (obj.collectable) {
 									inventory.Add (obj);
 									//Destroy (clickObj);
-									//clickObj.SetActive (false);
-									clickObj.transform.localScale = new Vector3 (0.0f, 0.0f, 0.0f);
+									clickObj.SetActive (false);
+									//clickObj.transform.localScale = new Vector3 (0.0f, 0.0f, 0.0f);
 								}
 
 								/* Zoom IN*/
@@ -359,6 +359,7 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	public void ZoomIn(GameItems obj){
+		rb.velocity = Vector3.zero;
 		Vector3 zoomPos = obj.ZoomLocation;
 		Quaternion zoomRot = obj.ZoomRotation;
 		if (!zoomFlag) {
