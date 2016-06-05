@@ -4,10 +4,10 @@ using UnityEngine.EventSystems;
 using System.Collections;
 
 public class ComputerButton: MonoBehaviour{
-	private Computer com;
+	private SmartPhone com;
 	public int number;
 	void Start(){
-		com = transform.parent.GetComponent<Computer>();
+		com = transform.parent.GetComponent<SmartPhone>();
 	}
 	public void NumberButton(){
 		com.Add (number);
