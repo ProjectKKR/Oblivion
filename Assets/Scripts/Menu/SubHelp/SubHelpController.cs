@@ -3,13 +3,13 @@ using System.Collections;
 
 public class SubHelpController : MonoBehaviour {
 
-	const int N=3;
+	const int N=6;
 	public GameObject[] helps = new GameObject[N];
-	public GameObject subHelp;
+	//public GameObject subHelp;
 	int current;
 	// Use this for initialization
 	void Start () {
-		for (int i = 0; i < N; i++)
+		for (int i = 1; i < N; i++)
 			helps [i].SetActive (false);
 		helps [0].SetActive (true);
 		current = 0;
