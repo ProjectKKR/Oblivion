@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Driver1 : Driver {
+public class VaultScrew4 : VaultScrew {
 	void Start() {
 
 	}

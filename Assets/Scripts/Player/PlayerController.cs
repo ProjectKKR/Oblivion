@@ -318,8 +318,7 @@ public class PlayerController : MonoBehaviour {
 							objloc.y = myloc.y = 0;
 							float distance = (myloc - objloc).magnitude;
 							if (distance <= obj.DistanceThreshold) {
-								Debug.Log (obj);
-								if (!(obj.zoomable ^ zoomFlag)) {
+								if (!(obj.zoomable ^ zoomFlag) || !obj.zoomable) {
 									obj.ClickInteraction (inventory.CurrentItem());
 								}
 
@@ -360,7 +359,6 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	public void ZoomIn(GameItems obj){
-		print ("ZoomIn");
 		Vector3 zoomPos = obj.ZoomLocation;
 		Quaternion zoomRot = obj.ZoomRotation;
 		if (!zoomFlag) {
