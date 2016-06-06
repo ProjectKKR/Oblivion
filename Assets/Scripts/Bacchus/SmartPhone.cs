@@ -11,6 +11,9 @@ public class SmartPhone : MonoBehaviour {
 	public GameObject messageScreen;
 	public GameObject galleryScreen;
 	public GameObject callingScreen;
+	public GameObject callFinished;
+	public GameObject enterButton;
+	public GameObject menuButton;
 
 	private const int DIALMAX = 15;
 	private char[] callDial = new char[DIALMAX];
@@ -38,19 +41,44 @@ public class SmartPhone : MonoBehaviour {
 
 	string Translate(){
 		string t = "";
-		for (int i = 1; i <= len; i++) {
-			t = t + inputCode [i].ToString ();
+		if (currentState == PW) {
+			for (int i = 1; i <= len; i++) {
+				t = t + inputCode [i].ToString ();
+			}
+		} else if (currentState == DIAL) {
+			for (int i = 0; i < dialLen; i++) {
+				t = t + callDial [i].ToString ();
+			}
 		}
 		return t;
 	}
 
 	public void PressEnter(){
-		if (activateCode.Equals(Translate())) {
+		if (currentState == PW && activateCode.Equals (Translate ())) {
 			OpenApp (MAINMENU);
 		}
 		len = 0;
 		Refresh ();
 	}
+
+	public void PressDialEnter(){
+		if (currentState == DIAL && dialAnswer.Equals (Translate ())) {
+			// TODO SOUND ON
+			OpenApp (CALLING);
+		}
+		len = 0;
+		Refresh ();
+	}
+
+	public void PressCallEnter(){
+		if (currentState == CALLING) {
+			//TODO SOUND OFF
+			callFinished.SetActive (true);
+			enterButton.SetActive (false);
+			menuButton.SetActive (true);
+		}
+	}
+
 	public void Delete(){
 		if (len>=1) len--;
 		Refresh ();
@@ -98,7 +126,7 @@ public class SmartPhone : MonoBehaviour {
 			galleryScreen.SetActive (true);
 			break;
 		case CALLING:
-			
+			callingScreen.SetActive (true);
 			break;
 		default:
 			passwordScreen.SetActive (true);

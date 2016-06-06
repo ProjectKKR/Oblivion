@@ -18,16 +18,22 @@ public class SmartPhoneButton: MonoBehaviour{
 	public void EnterButton(){
 		com.PressEnter ();
 	}
+	public void CallEnterButton(){
+		com.PressCallEnter ();
+	}
 	public void DialButton() {
 		com.Dial (number);
 	}
 	public void DialDeleteButton() {
 		com.DialDelete ();
 	}
+	public void DialEnterButton() {
+		com.PressDialEnter ();
+	}
 	public void AppButton() {
 		com.OpenApp (number);
 	}
 	public void CallButton() {
-		com.Call ();
+		com.OpenApp (3);
 	}
 }
