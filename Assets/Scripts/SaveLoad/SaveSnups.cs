@@ -19,8 +19,6 @@ public class SaveSnups : MonoBehaviour {
 	public FiniteMoveManager5 round5;
 	public GameObject clear;
 	public NumberJump left;
-	public LightSwitchController lightSwitch;
-	public GameObject clockFace;
 
 	public void Save() {
 		// Player Position & Rotation
@@ -56,14 +54,9 @@ public class SaveSnups : MonoBehaviour {
 		PlayerPrefs.SetFloat ("Valut1_Door_Open_Flag", vd1.getOpenFlag ());
 		PlayerPrefs.SetFloat ("Valut2_Door_Open_Flag", vd2.getOpenFlag ());
 
-		// Light Switch
-		PlayerPrefsX.SetBool ("Light_Switch_Interactable", lightSwitch.interactable);
-		PlayerPrefsX.SetBool ("Light_Switch_State", lightSwitch.getState ());
-		PlayerPrefsX.SetBool ("Clock_Face_Active", clockFace.activeSelf);
-
 		// Card
-		PlayerPrefsX.SetVector3 ("Card1_Scale", card1.transform.localScale);
-		PlayerPrefsX.SetVector3 ("Card2_Scale", card2.transform.localScale);
+		//		PlayerPrefsX.SetBool ("Card1_Active", card1.activeSelf);
+		//		PlayerPrefsX.SetBool ("Card2_Active", card2.activeSelf);
 
 		// Card Reader
 		PlayerPrefsX.SetBool ("Card_Reader_Card_Flag1", cardReader.cardFlag1);

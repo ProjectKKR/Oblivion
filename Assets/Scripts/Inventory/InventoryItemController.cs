@@ -10,7 +10,7 @@ public class InventoryItemController : MonoBehaviour {
 
 	private List<GameItems> itemList = new List<GameItems>();
 	private GameObject[] PreviewList = new GameObject[10];
-	private int equipIndex = -1; // equipped item index
+	private int equipIndex; // equipped item index
 
 	public int getEquipIndex() {
 		return equipIndex;
@@ -36,9 +36,9 @@ public class InventoryItemController : MonoBehaviour {
 			for (int i = 0; i < tagList.Length; i++) {
 				if (GameObject.FindWithTag (tagList [i]) == null)
 					continue;
-				//GameObject.FindWithTag (tagList [i]).SetActive (true);
+				GameObject.FindWithTag (tagList [i]).SetActive (true);
 				itemList.Add (GameObject.FindWithTag (tagList [i]).GetComponent <GameItems> ());
-				//GameObject.FindWithTag (tagList [i]).SetActive (false);
+				GameObject.FindWithTag (tagList [i]).SetActive (false);
 				Refresh ();
 			}
 		}

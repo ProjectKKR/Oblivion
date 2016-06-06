@@ -11,12 +11,9 @@ public class AlwaysTrigger : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetKeyDown(KeyCode.Escape))
+		if (Input.GetKeyDown(KeyCode.Escape) && player.zooming==false)
 		{
-			if (player.zooming == false && !player.getZoomFlag())
-				PauseMenu.SetActive (!PauseMenu.activeInHierarchy);
-			else if (player.getZoomFlag())
-				player.ZoomOut ();
+			PauseMenu.SetActive (!PauseMenu.activeInHierarchy);
 		}
 	}
 }

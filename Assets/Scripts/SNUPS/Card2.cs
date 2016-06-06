@@ -3,8 +3,8 @@ using System.Collections;
 
 public class Card2 : Card {
 	void Start() {
-		if (PlayerPrefs.HasKey ("Card2_Scale")) {
-			gameObject.transform.localScale = PlayerPrefsX.GetVector3 ("Card2_Scale");
+		if (PlayerPrefs.HasKey ("Card2_Active")) {
+			gameObject.SetActive (PlayerPrefsX.GetBool ("Card2_Active"));
 		}
 	}
 }
