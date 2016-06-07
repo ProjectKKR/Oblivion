@@ -318,12 +318,6 @@ public class PlayerController : MonoBehaviour {
 							objloc.y = myloc.y = 0;
 							float distance = (myloc - objloc).magnitude;
 							if (distance <= obj.DistanceThreshold) {
-
-								/* Zoom IN*/
-								if (obj.zoomable) {
-									ZoomIn (obj);
-								}
-
 								if (!(obj.zoomable ^ zoomFlag) || !obj.zoomable) {
 									obj.ClickInteraction (inventory.CurrentItem());
 								}
@@ -331,8 +325,12 @@ public class PlayerController : MonoBehaviour {
 								if (obj.collectable) {
 									inventory.Add (obj);
 									//Destroy (clickObj);
-									clickObj.SetActive (false);
-									//clickObj.transform.localScale = new Vector3 (0.0f, 0.0f, 0.0f);
+									//clickObj.SetActive (false);
+									clickObj.transform.localScale = new Vector3 (0.0f, 0.0f, 0.0f);
+								}
+
+								if (obj.zoomable) {
+									ZoomIn (obj);
 								}
 							}
 						}
