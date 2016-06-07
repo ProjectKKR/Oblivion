@@ -46,10 +46,85 @@ public class SmartPhone : MonoBehaviour {
 
 	private bool messageReceived = false;
 
+	public string getCallDial() {
+		string ret = "";
+		for (int i = 0; i < dialLen; i++)
+			ret = ret + callDial [i].ToString ();
+		return ret;
+	}
+
+	public void setCallDial(string s) {
+		for (int i = 0; i < DIALMAX && i < s.Length; i++)
+			callDial [i] = s[i];
+	}
+
+	public int getDialLen() {
+		return dialLen;
+	}
+
+	public int[] getInputCode() {
+		return inputCode;
+	}
+
+	public int getLen() {
+		return len;
+	}
+
+	public bool getMessageReceived() {
+		return messageReceived;
+	}
+
+	public string getMessageDate() {
+		return messageDate.text;
+	}
+
 	void Start(){
 		currentState = DEFAULT;
 
-		//currentState = PW;
+		if (PlayerPrefs.HasKey ("Phone_State")) {
+			currentState = PlayerPrefs.GetInt ("Phone_State");
+			OpenApp (currentState);
+		}
+
+		if (PlayerPrefs.HasKey ("Phone_Call_Dial")) {
+			setCallDial (PlayerPrefs.GetString ("Phone_Call_Dial"));
+		}
+
+		if (PlayerPrefs.HasKey ("Phone_Dial_Len")) {
+			dialLen = PlayerPrefs.GetInt ("Phone_Dial_Len");
+		}
+
+		if (PlayerPrefs.HasKey ("Phone_Input_Code")) {
+			inputCode = PlayerPrefsX.GetIntArray ("Phone_Input_Code");
+		}
+
+		if (PlayerPrefs.HasKey ("Phone_Len")) {
+			len = PlayerPrefs.GetInt ("Phone_Len");
+		}
+
+		if (PlayerPrefs.HasKey ("Phone_Message_Received")) {
+			messageReceived = PlayerPrefsX.GetBool ("Phone_Message_Received");
+		}
+
+		if (PlayerPrefs.HasKey ("Phone_Message_Date")) {
+			messageDate.text = PlayerPrefs.GetString ("Phone_Message_Date");
+		}
+
+		if (PlayerPrefs.HasKey ("Phone_Message_Icon_Active")) {
+			messageIcon.SetActive (PlayerPrefsX.GetBool ("Phone_Message_Icon_Active"));
+		}
+
+		if (PlayerPrefs.HasKey ("Phone_Message_Number_Active")) {
+			messageNumber.SetActive (PlayerPrefsX.GetBool ("Phone_Message_Number_Active"));
+		}
+
+		if (PlayerPrefs.HasKey ("Phone_Message_Active")) {
+			message.SetActive (PlayerPrefsX.GetBool ("Phone_Message_Active"));
+		}
+
+		if (PlayerPrefs.HasKey ("Phone_Message_Button_Active")) {
+			messageButton.SetActive (PlayerPrefsX.GetBool ("Phone_Message_Button_Active"));
+		}
 		Refresh ();
 	}
 

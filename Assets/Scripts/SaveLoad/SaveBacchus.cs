@@ -17,7 +17,11 @@ public class SaveBacchus : MonoBehaviour {
 	public GameObject vaultScrew3;
 	public GameObject vaultScrew4;
 	public BacchusVaultDoor vaultDoor;
-
+	public GameObject chargerComposed;
+	public SmartPhoneController phoneControl;
+	public SmartPhone phone;
+	public MainDoor door;
+	public VanGoghPicture picture;
 
 	public void Save() {
 		// Save Level
@@ -50,5 +54,26 @@ public class SaveBacchus : MonoBehaviour {
 		PlayerPrefsX.SetVector3 ("Vault_Screw4_Scale", vaultScrew4.transform.localScale);
 		PlayerPrefs.SetInt ("Vault_Door_Count", vaultDoor.getScrewCount ());
 		PlayerPrefsX.SetVector3 ("Vault_Door_Scale", vaultDoor.transform.localScale);
+
+		// Phone
+		PlayerPrefsX.SetVector3 ("Charger_Composed_Scale", chargerComposed.transform.localScale);
+		PlayerPrefsX.SetBool ("Phone_Opened", phoneControl.getOpened ());
+		PlayerPrefs.SetInt ("Phone_State", phone.currentState);
+		PlayerPrefs.SetString ("Phone_Call_Dial", phone.getCallDial ());
+		PlayerPrefs.SetInt ("Phone_Dial_Len", phone.getDialLen ());
+		PlayerPrefsX.SetIntArray ("Phone_Input_Code", phone.getInputCode ());
+		PlayerPrefs.SetInt ("Phone_Len", phone.getLen ());
+		PlayerPrefsX.SetBool ("Phone_Message_Received", phone.getMessageReceived ());
+		PlayerPrefs.SetString ("Phone_Message_Date", phone.getMessageDate ());
+		PlayerPrefsX.SetBool ("Phone_Message_Icon_Active", phone.messageIcon.activeSelf);
+		PlayerPrefsX.SetBool ("Phone_Message_Number_Active", phone.messageNumber.activeSelf);
+		PlayerPrefsX.SetBool ("Phone_Message_Active", phone.message.activeSelf);
+		PlayerPrefsX.SetBool ("Phone_Message_Button_Active", phone.messageButton.activeSelf);
+
+		// Door
+		PlayerPrefsX.SetBool ("Main_Door_Interactable", door.interactable);
+
+		// Picture
+		PlayerPrefsX.SetBool ("Picture_Rotate_State", picture.getState());
 	}
 }

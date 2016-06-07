@@ -8,10 +8,18 @@ public class SmartPhoneController : GameItems{
 	public GameObject lowBattery;
 
 	private bool opened;
+
+	public bool getOpened() {
+		return opened;
+	}
+
 	void Start () {
 		opened = false;
 		zoomLocation = transform.position + new Vector3 (0.0f, 0.27f, 0.0f);
 		zoomRotation = Quaternion.Euler (new Vector3 (90, 0, 0));
+		if (PlayerPrefs.HasKey ("Phone_Opened")) {
+			opened = PlayerPrefsX.GetBool ("Phone_Opened");
+		}
 	}
 
 	protected override void Interaction () {
@@ -31,7 +39,7 @@ public class SmartPhoneController : GameItems{
 			return false;
 		if (equipped == null) return true;
 		if (equipped.Equals (chargerComposed)) {
-			chargerComposedReal.SetActive (true);
+			chargerComposedReal.transform.localScale = new Vector3 (2.0f, 2.0f, 2.0f);
 			//zoomable = true;
 			smartPhone.OpenApp (1);
 			opened = true;
