@@ -36,4 +36,7 @@ public class SmartPhoneButton: MonoBehaviour{
 	public void CallButton() {
 		com.OpenApp (3);
 	}
+	public void MessageCheckButton() {
+		com.OpenApp (7);
+	}
 }

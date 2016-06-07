@@ -34,7 +34,6 @@ public class InventoryItemController : MonoBehaviour {
 		if (PlayerPrefs.HasKey ("Inventory_Item_Tag_List")) {
 			string[] tagList = PlayerPrefsX.GetStringArray ("Inventory_Item_Tag_List");
 			for (int i = 0; i < tagList.Length; i++) {
-				print (tagList [i]);
 				if (GameObject.FindWithTag (tagList [i]) == null)
 					continue;
 				//GameObject.FindWithTag (tagList [i]).SetActive (true);

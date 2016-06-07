@@ -8,10 +8,11 @@ public class CardReader : GameItems {
 	public GameObject greenLight2;
 	public Material redLightOff;
 	public Material greenLightOn;
-	public GameObject EndingMenu;
 
 	public GameItems card1;
 	public GameItems card2;
+	public GameItems mainDoor;
+
 	public bool cardFlag1 = true;
 	public bool cardFlag2 = true;
 
@@ -33,7 +34,7 @@ public class CardReader : GameItems {
 		}
 
 		if (!cardFlag1 && !cardFlag2) {
-			EndingMenu.SetActive (true);
+			mainDoor.interactable = true;
 		}
 	}
 
@@ -60,7 +61,7 @@ public class CardReader : GameItems {
 			cardFlag2 = false;
 		}
 		if (!cardFlag1 && !cardFlag2) {
-			EndingMenu.SetActive (true);
+			mainDoor.interactable = true;
 		}
 	}
 

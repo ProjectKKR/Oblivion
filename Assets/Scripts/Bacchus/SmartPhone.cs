@@ -14,13 +14,23 @@ public class SmartPhone : MonoBehaviour {
 	public GameObject callFinished;
 	public GameObject enterButton;
 	public GameObject menuButton;
+	public GameObject statusBar;
+	public GameObject messageIcon;
+	public GameObject messageNumber;
+	public GameObject message;
+	public GameObject messageButton;
+	public Text messageDate;
+
+	public GameObject messageCheckScreen;
+	public GameItems mainDoor;
+
 
 	private const int DIALMAX = 15;
 	private char[] callDial = new char[DIALMAX];
 	private int dialLen = 0;
-	private const string dialAnswer = "01041416486";
+	private const string dialAnswer = "0"; // 01041416486
 
-	private string activateCode = "201416371";
+	private string activateCode = "2"; // 201416371
 	private int[] inputCode = new int[10];
 	private int len = 0, N = 4;
 	public int currentState;
@@ -32,9 +42,13 @@ public class SmartPhone : MonoBehaviour {
 	private const int MESSAGE = 4;
 	private const int GALLERY = 5;
 	private const int CALLING = 6;
+	private const int MESSAGECHECK = 7;
+
+	private bool messageReceived = false;
 
 	void Start(){
 		currentState = DEFAULT;
+
 		//currentState = PW;
 		Refresh ();
 	}
@@ -64,9 +78,15 @@ public class SmartPhone : MonoBehaviour {
 	public void PressDialEnter(){
 		if (currentState == DIAL && dialAnswer.Equals (Translate ())) {
 			// TODO SOUND ON
+			callFinished.SetActive (false);
+			enterButton.SetActive (true);
+			menuButton.SetActive (false);
 			OpenApp (CALLING);
+			System.DateTime time = System.DateTime.Now;
+			messageDate.text = time.ToString ("yyyy / M / d");
+			Invoke ("AutomaticCallEnter", 3.0f);
 		}
-		len = 0;
+		dialLen = 0;
 		Refresh ();
 	}
 
@@ -76,7 +96,48 @@ public class SmartPhone : MonoBehaviour {
 			callFinished.SetActive (true);
 			enterButton.SetActive (false);
 			menuButton.SetActive (true);
+			Invoke ("CallFinishedOff", 0.5f);
+			Invoke ("CallFinishedOn", 1.0f);
+			Invoke ("CallFinishedOff", 1.5f);
+			Invoke ("CallFinishedOn", 2.0f);
+			if (!messageReceived) {
+				messageReceived = true;
+				messageIcon.SetActive (true);
+				messageNumber.SetActive (true);
+				message.SetActive (true);
+				messageButton.SetActive (true);
+			}
 		}
+	}
+
+	// same code with PressCallEnter...
+	public void AutomaticCallEnter(){
+		if (currentState == CALLING) {
+			//TODO SOUND OFF
+			if (callFinished.activeSelf) return;
+			callFinished.SetActive (true);
+			enterButton.SetActive (false);
+			menuButton.SetActive (true);
+			Invoke ("CallFinishedOff", 0.5f);
+			Invoke ("CallFinishedOn", 1.0f);
+			Invoke ("CallFinishedOff", 1.5f);
+			Invoke ("CallFinishedOn", 2.0f);
+			if (!messageReceived) {
+				messageReceived = true;
+				messageIcon.SetActive (true);
+				messageNumber.SetActive (true);
+				message.SetActive (true);
+				messageButton.SetActive (true);
+			}
+		}
+	}
+
+	private void CallFinishedOn() {
+		callFinished.SetActive (true);
+	}
+
+	private void CallFinishedOff() {
+		callFinished.SetActive (false);
 	}
 
 	public void Delete(){
@@ -104,6 +165,9 @@ public class SmartPhone : MonoBehaviour {
 	}
 
 	public void OpenApp(int appnum) {
+		print (appnum);
+		if (appnum == GALLERY)
+			return;
 		dialview.text = "";
 
 		passwordScreen.SetActive (false);
@@ -112,24 +176,38 @@ public class SmartPhone : MonoBehaviour {
 		messageScreen.SetActive (false);
 		galleryScreen.SetActive (false);
 		callingScreen.SetActive (false);
+		messageCheckScreen.SetActive (false);
 		switch (appnum) {
 		case MAINMENU:
 			mainMenuScreen.SetActive (true);
+			statusBar.SetActive (true);
 			break;
 		case DIAL:
 			dialScreen.SetActive (true);
+			statusBar.SetActive (true);
 			break;
 		case MESSAGE:
 			messageScreen.SetActive (true);
+			statusBar.SetActive (true);
 			break;
 		case GALLERY:
 			galleryScreen.SetActive (true);
+			statusBar.SetActive (true);
 			break;
 		case CALLING:
 			callingScreen.SetActive (true);
+			statusBar.SetActive (true);
+			break;
+		case MESSAGECHECK:
+			messageCheckScreen.SetActive (true);
+			statusBar.SetActive (true);
+			messageIcon.SetActive (false);
+			messageNumber.SetActive (false);
+			mainDoor.interactable = true;
 			break;
 		default:
 			passwordScreen.SetActive (true);
+			statusBar.SetActive (true);
 			break;
 		}
 		currentState = appnum;
