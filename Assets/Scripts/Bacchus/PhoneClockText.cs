@@ -14,7 +14,7 @@ public class PhoneClockText : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		System.DateTime time = System.DateTime.Now;
-		clockText.text = time.ToString("hh : mm"); 
+		clockText.text = time.ToString("HH : mm");
 	}
 
 }
