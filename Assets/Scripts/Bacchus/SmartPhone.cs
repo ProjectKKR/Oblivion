@@ -28,9 +28,9 @@ public class SmartPhone : MonoBehaviour {
 	private const int DIALMAX = 15;
 	private char[] callDial = new char[DIALMAX];
 	private int dialLen = 0;
-	private const string dialAnswer = "0"; // 01041416486
+	private const string dialAnswer = "01041416486";
 
-	private string activateCode = "2"; // 201416371
+	private string activateCode = "18530330";
 	private int[] inputCode = new int[10];
 	private int len = 0, N = 4;
 	public int currentState;
