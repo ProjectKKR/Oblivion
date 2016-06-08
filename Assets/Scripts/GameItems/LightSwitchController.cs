@@ -6,6 +6,7 @@ public class LightSwitchController : GameItems {
 	//public LightController LC;
 	public GameObject switchAxis;
 	public GameObject ClockFace;
+	public Light[] lights = new Light[4];
 
 	private const float angle = 10;
 	private bool state;
@@ -22,6 +23,9 @@ public class LightSwitchController : GameItems {
 
 		if (PlayerPrefs.HasKey ("Light_Switch_State")) {
 			state = PlayerPrefsX.GetBool ("Light_Switch_State");
+			for (int i = 0; i < 4; i++) {
+				lights [i].intensity = state ? 0.1f : 0.3f;
+			}
 			switchAxis.transform.eulerAngles = new Vector3 (90, 0, state ? -angle : 0);
 		}
 
@@ -34,6 +38,9 @@ public class LightSwitchController : GameItems {
 		state = !state;
 		switchAxis.transform.eulerAngles = new Vector3 (90, 0, state ? -angle : 0);
 		ClockFace.SetActive (state);
+		for (int i = 0; i < 4; i++) {
+			lights [i].intensity = state ? 0.1f : 0.3f;
+		}
 		//LC.Light (state);
 	}
 }
