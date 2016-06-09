@@ -38,7 +38,7 @@ public class LightSwitchController : GameItems {
 		state = !state;
 		switchAxis.transform.eulerAngles = new Vector3 (90, 0, state ? -angle : 0);
 		ClockFace.SetActive (state);
-		for (nint i = 0; i < 4; i++) {
+		for (int i = 0; i < 4; i++) {
 			lights [i].intensity = state ? 0.1f : 0.3f;
 		}
 		//LC.Light (state);

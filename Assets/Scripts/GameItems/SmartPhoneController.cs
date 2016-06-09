@@ -24,7 +24,7 @@ public class SmartPhoneController : GameItems{
 
 	protected override void Interaction () {
 		// TODO : check equipping charger
-		print (lowBattery.activeSelf);
+		//print (lowBattery.activeSelf);
 		if (lowBattery.activeSelf == true) return;
 		lowBattery.SetActive (true);
 		Invoke ("LowBatteryOff", 1.0f);
