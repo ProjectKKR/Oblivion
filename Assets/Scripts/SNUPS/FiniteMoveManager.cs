@@ -19,7 +19,7 @@ public abstract class FiniteMoveManager : MonoBehaviour {
 	public abstract void Reset ();
 	public abstract void Load ();
 	void Start () {
-		Load ();
+		//Load ();
 		targetObjs.Clear ();
 		unitObjs.Clear ();
 		for (int i = 0; i < N; i++) {
@@ -105,21 +105,9 @@ public abstract class FiniteMoveManager : MonoBehaviour {
 		nextButton.SetActive (true);
 	}
 	public void NextRound(){
+		print (nextRound);
+		print (this.gameObject);
 		nextRound.SetActive (true);
 		this.gameObject.SetActive (false);
 	}
 }
-
-/*
-public void ClickInteraction (GameItems equipped) {
-	if (interactable)
-	if (EquippedItemCheck (equipped))
-		Interaction ();
-}
-protected virtual bool EquippedItemCheck (GameItems equipped){
-	return true;
-}
-public virtual void ChainOperation (int caseNum){}
-protected abstract void Interaction ();
-
-*/
