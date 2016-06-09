@@ -9,7 +9,7 @@ public class LoadGameTrigger : MonoBehaviour {
 		if (PlayerPrefs.HasKey ("Level_Name")) {
 			SceneManager.LoadScene (PlayerPrefs.GetString ("Level_Name"));
 		} else {
-			SceneManager.LoadScene("SNUPS");
+			SceneManager.LoadScene("BACCHUS");
 		}
 	}
 }
