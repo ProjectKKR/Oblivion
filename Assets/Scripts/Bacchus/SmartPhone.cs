@@ -32,7 +32,7 @@ public class SmartPhone : MonoBehaviour {
 
 	private string activateCode = "18530330";
 	private int[] inputCode = new int[10];
-	private int len = 0, N = 4;
+	private int len = 0;//, N = 4;
 	public int currentState;
 
 	private const int DEFAULT = 0;
