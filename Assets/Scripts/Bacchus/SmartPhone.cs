@@ -24,6 +24,8 @@ public class SmartPhone : MonoBehaviour {
 	public GameObject messageCheckScreen;
 	public GameItems mainDoor;
 
+	public SmartPhoneController phoneController;
+
 
 	private const int DIALMAX = 15;
 	private char[] callDial = new char[DIALMAX];
@@ -43,6 +45,7 @@ public class SmartPhone : MonoBehaviour {
 	private const int GALLERY = 5;
 	private const int CALLING = 6;
 	private const int MESSAGECHECK = 7;
+	private const int HOME = 8;
 
 	private bool messageReceived = false;
 
@@ -240,7 +243,7 @@ public class SmartPhone : MonoBehaviour {
 	}
 
 	public void OpenApp(int appnum) {
-		if (appnum == GALLERY || currentState == DEFAULT || currentState == PW)
+		if (appnum == GALLERY || !phoneController.getOpened())
 			return;
 		dialview.text = "";
 
@@ -279,6 +282,20 @@ public class SmartPhone : MonoBehaviour {
 			messageNumber.SetActive (false);
 			mainDoor.interactable = true;
 			break;
+		case HOME:
+			if (currentState == DEFAULT) {
+				return;
+			} else if (currentState == PW) {
+				passwordScreen.SetActive (true);
+				statusBar.SetActive (true);
+				return;
+			} else {
+				mainMenuScreen.SetActive (true);
+				statusBar.SetActive (true);
+				appnum = MAINMENU;
+				break;
+			}
+
 		default:
 			passwordScreen.SetActive (true);
 			statusBar.SetActive (true);

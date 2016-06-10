@@ -6,6 +6,7 @@ public class SmartPhoneController : GameItems{
 	public GameObject chargerComposedReal;
 	public SmartPhone smartPhone;
 	public GameObject lowBattery;
+	public InventoryItemController iic;
 
 	private bool opened;
 
@@ -37,9 +38,10 @@ public class SmartPhoneController : GameItems{
 			return false;
 		if (equipped == null) return true;
 		if (equipped.Equals (chargerComposed)) {
+			iic.Delete (chargerComposed);
 			chargerComposedReal.transform.localScale = new Vector3 (2.0f, 2.0f, 2.0f);
-			smartPhone.OpenApp (1);
 			opened = true;
+			smartPhone.OpenApp (1);
 		} else {
 			return true;
 		}
