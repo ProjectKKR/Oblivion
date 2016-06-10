@@ -15,7 +15,7 @@ public class SmartPhoneController : GameItems{
 
 	void Start () {
 		opened = false;
-		zoomLocation = transform.position + new Vector3 (0.0f, 0.3f, 0.0f);
+		zoomLocation = transform.position + new Vector3 (0.0f, 0.32f, 0.0f);
 		zoomRotation = Quaternion.Euler (new Vector3 (90, 0, 0));
 		if (PlayerPrefs.HasKey ("Phone_Opened")) {
 			opened = PlayerPrefsX.GetBool ("Phone_Opened");
