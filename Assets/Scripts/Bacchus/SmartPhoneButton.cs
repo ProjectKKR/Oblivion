@@ -8,6 +8,7 @@ public class SmartPhoneButton: MonoBehaviour{
 	public int number;
 	void Start(){
 		com = transform.parent.parent.GetComponent<SmartPhone>();
+		if (com==null) com = transform.parent.GetComponent<SmartPhone>();
 	}
 	public void NumberButton(){
 		com.Add (number);
