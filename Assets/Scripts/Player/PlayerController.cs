@@ -43,7 +43,6 @@ public class PlayerController : MonoBehaviour {
 	private float[] compassBuffer = new float[BUFFER_SIZE];
 	private float accelSum = 0.0f, compassSum = 0.0f;
 	private int accelIdx = 0, compassIdx = 0;
-	//
 
 	public bool getZoomFlag() {
 		return zoomFlag;
@@ -74,7 +73,6 @@ public class PlayerController : MonoBehaviour {
 
 		// ONLY ENABLE (OPTION 1)
 		Input.compass.enabled = true;
-		//while (Mathf.Abs (Input.compass.magneticHeading) < 1e-3)
 		if (PlayerPrefs.HasKey ("Player_Position")) {
 			transform.position = PlayerPrefsX.GetVector3 ("Player_Position");
 		}
@@ -135,7 +133,7 @@ public class PlayerController : MonoBehaviour {
 
 
 				/* TURN HORIZONTAL & VERTICAL*/
-				/* Control OPTION 0 */
+				/* Control OPTION 3 */
 				/* Screen Drag Input */
 				if (controlOption == 3) {
 					if (Input.touchCount != beforeTouchCount) {
@@ -184,7 +182,7 @@ public class PlayerController : MonoBehaviour {
 							interactionEnable = true;
 						}
 					}
-				} // End Control OPTION 2
+				}
 
 				/* Control OPTION 2 */
 				/* Accelerometer & Horizontal Rotaion with Drag */
@@ -298,7 +296,7 @@ public class PlayerController : MonoBehaviour {
 					if (euler.x > 80)
 						euler.x = 80;
 					mainCamera.transform.rotation = Quaternion.Euler (euler);
-				} // End Control OPTION 1
+				}
 
 			} else {
 				rb.velocity = Vector3.zero;
@@ -324,8 +322,6 @@ public class PlayerController : MonoBehaviour {
 
 								if (obj.collectable) {
 									inventory.Add (obj);
-									//Destroy (clickObj);
-									//clickObj.SetActive (false);
 									clickObj.transform.localScale = new Vector3 (0.0f, 0.0f, 0.0f);
 								}
 
@@ -362,7 +358,7 @@ public class PlayerController : MonoBehaviour {
 		Vector3 zoomPos = obj.ZoomLocation;
 		Quaternion zoomRot = obj.ZoomRotation;
 		if (!zoomFlag) {
-			originalPos = mainCamera.transform.position; // save original position
+			originalPos = mainCamera.transform.position;
 			originalRot = mainCamera.transform.rotation;
 		} else
 			return;
@@ -374,11 +370,6 @@ public class PlayerController : MonoBehaviour {
 		deltaPos = (zoomPos - originalPos)/(float)deltaCount;
 		sourceRot = originalRot;
 		destRot = zoomRot;
-
-		/*
-		 * mainCamera.transform.Translate (zoomPos - originalPos,Space.World);
-		 * mainCamera.transform.rotation = zoomRot;
-		 */
 		rb.velocity = Vector3.zero;
 	}
 
@@ -389,8 +380,6 @@ public class PlayerController : MonoBehaviour {
 		deltaPos = (originalPos - mainCamera.transform.position)/(float)deltaCount;
 		sourceRot = mainCamera.transform.rotation;
 		destRot = originalRot;
-		/*mainCamera.transform.Translate (originalPos - mainCamera.transform.position, Space.World);
-		mainCamera.transform.rotation = originalRot;*/
 		TurnOnUI ();
 	}
 

@@ -23,8 +23,6 @@ public class SmartPhoneController : GameItems{
 	}
 
 	protected override void Interaction () {
-		// TODO : check equipping charger
-		//print (lowBattery.activeSelf);
 		if (lowBattery.activeSelf == true) return;
 		lowBattery.SetActive (true);
 		Invoke ("LowBatteryOff", 1.0f);
@@ -40,7 +38,6 @@ public class SmartPhoneController : GameItems{
 		if (equipped == null) return true;
 		if (equipped.Equals (chargerComposed)) {
 			chargerComposedReal.transform.localScale = new Vector3 (2.0f, 2.0f, 2.0f);
-			//zoomable = true;
 			smartPhone.OpenApp (1);
 			opened = true;
 		} else {

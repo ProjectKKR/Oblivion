@@ -7,13 +7,10 @@ public class DragView : MonoBehaviour, IDragHandler, IPointerDownHandler, IPoint
 	private Image dragPanel;
 	private Vector2 noTouch = new Vector2(-1000, -1000);
 	private Vector2 inputVector;
-	// Use this for initialization
 	void Start () {
 		dragPanel = GetComponent<Image> ();
 		inputVector = noTouch;
 	}
-	
-	// Update is called once per frame
 	void Update () {
 		
 	}

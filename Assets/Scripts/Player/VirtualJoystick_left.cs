@@ -6,7 +6,7 @@ using System.Collections;
 public class VirtualJoystick_left : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointerDownHandler {
 
 	private Image bgImg;
-	private Image jsImg; // JoystickImg
+	private Image jsImg;
 	private Vector3 inputVector;
 	private void Start(){
 		bgImg = GetComponent<Image> ();

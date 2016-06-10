@@ -240,7 +240,6 @@ public class SmartPhone : MonoBehaviour {
 	}
 
 	public void OpenApp(int appnum) {
-		//print (appnum);
 		if (appnum == GALLERY)
 			return;
 		dialview.text = "";

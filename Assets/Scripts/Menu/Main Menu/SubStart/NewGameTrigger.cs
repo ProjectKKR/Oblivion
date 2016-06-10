@@ -4,7 +4,6 @@ using System.Collections;
 
 public class NewGameTrigger : MonoBehaviour {
 	public void Trigger(){
-		//TODO : Delete all save data
 		PlayerPrefs.DeleteAll();
 		SceneManager.LoadScene("BACCHUS");
 	}

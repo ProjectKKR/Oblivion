@@ -4,7 +4,6 @@ using System.Collections;
 public class OptionController : MonoBehaviour {
 	public GameObject SubOption;
 	public GameObject checkbox;
-	// Use this for initialization
 	void Start () {
 		SubOption.SetActive (false);
 	}

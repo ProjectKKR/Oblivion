@@ -36,9 +36,7 @@ public class InventoryItemController : MonoBehaviour {
 			for (int i = 0; i < tagList.Length; i++) {
 				if (GameObject.FindWithTag (tagList [i]) == null)
 					continue;
-				//GameObject.FindWithTag (tagList [i]).SetActive (true);
 				itemList.Add (GameObject.FindWithTag (tagList [i]).GetComponent <GameItems> ());
-				//GameObject.FindWithTag (tagList [i]).SetActive (false);
 				Refresh ();
 			}
 		}
@@ -96,10 +94,7 @@ public class InventoryItemController : MonoBehaviour {
 		/* visualize preview image */
 		if (itemList.Count > maxItem) print ("Inventory Exceed");
 		for (int i = 0; i < maxItem; i++) {
-			//GameObject redFrame = Content.transform.GetChild (i).GetChild(0).gameObject;
-			//redFrame.SetActive (itemRoom.equipFlag & itemRoom.itemExistFlag);
 			if (i>=itemList.Count){
-				// 빈 공간
 				PreviewList [i].GetComponent<RawImage> ().texture = null;
 			}else{
 				PreviewList [i].GetComponent<RawImage> ().texture = itemList [i].preview;

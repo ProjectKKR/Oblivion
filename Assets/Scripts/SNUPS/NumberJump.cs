@@ -11,7 +11,6 @@ public class NumberJump : GameItems {
 	private int[,] num = {{1,2,2},{-1,1,3},{4,1,1}};
 
 	private int lastX,lastY;
-	// Use this for initialization
 	void Start () {
 		for (int i = 0; i < N; i++) {
 			for (int j = 0; j < N; j++) {
@@ -81,6 +80,6 @@ public class NumberJump : GameItems {
 		return Mathf.Abs (x - lastX) + Mathf.Abs (y - lastY);
 	}
 	protected override void Interaction () {
-		// TODO
+		
 	}
 }

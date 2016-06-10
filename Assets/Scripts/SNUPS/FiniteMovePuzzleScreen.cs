@@ -5,7 +5,6 @@ public class FiniteMovePuzzleScreen : GameItems {
 
 	private GameObject[] rounds = new GameObject[6];
 
-	// Use this for initialization
 	void Start () {
 		zoomLocation = transform.position + new Vector3 (0, 0.8f, 0);
 		zoomRotation = Quaternion.Euler (new Vector3 (90, 0, 0));

@@ -5,9 +5,7 @@ public class SubHelpController : MonoBehaviour {
 
 	const int N=6;
 	public GameObject[] helps = new GameObject[N];
-	//public GameObject subHelp;
 	int current;
-	// Use this for initialization
 	void Start () {
 		for (int i = 1; i < N; i++)
 			helps [i].SetActive (false);

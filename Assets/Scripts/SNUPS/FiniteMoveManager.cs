@@ -19,7 +19,6 @@ public abstract class FiniteMoveManager : MonoBehaviour {
 	public abstract void Reset ();
 	public abstract void Load ();
 	void Start () {
-		//Load ();
 		targetObjs.Clear ();
 		unitObjs.Clear ();
 		for (int i = 0; i < N; i++) {
@@ -28,7 +27,6 @@ public abstract class FiniteMoveManager : MonoBehaviour {
 		}
 		Reset ();
 	}
-	// Use this for initialization
 	Vector2 translate(Vector2 X){
 		X.x--; X.y--;
 		X = X * W + new Vector2 (W / 2, W / 2);
