@@ -3,7 +3,7 @@ using System.Collections;
 
 public static class Static{
 	
-	public static int controlOption = 3;
+	public static int controlOption = 2;
 	// Use this for initialization
 	public static int GetControlOption(){
 		return controlOption;
