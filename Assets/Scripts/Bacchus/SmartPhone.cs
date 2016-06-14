@@ -25,7 +25,8 @@ public class SmartPhone : MonoBehaviour {
 	public GameItems mainDoor;
 
 	public SmartPhoneController phoneController;
-
+	public AudioSource messageSound;
+	public AudioSource dialSound;
 
 	private const int DIALMAX = 15;
 	private char[] callDial = new char[DIALMAX];
@@ -48,6 +49,7 @@ public class SmartPhone : MonoBehaviour {
 	private const int HOME = 8;
 
 	private bool messageReceived = false;
+	private bool dialCorrect = false;
 
 	public string getCallDial() {
 		string ret = "";
@@ -154,15 +156,18 @@ public class SmartPhone : MonoBehaviour {
 	}
 
 	public void PressDialEnter(){
-		if (currentState == DIAL && dialAnswer.Equals (Translate ())) {
-			// TODO SOUND ON
+		if (currentState == DIAL) {
+			dialCorrect = dialAnswer.Equals (Translate ());
 			callFinished.SetActive (false);
 			enterButton.SetActive (true);
 			menuButton.SetActive (false);
 			OpenApp (CALLING);
-			System.DateTime time = System.DateTime.Now;
-			messageDate.text = time.ToString ("yyyy / M / d");
-			Invoke ("AutomaticCallEnter", 3.0f);
+			if (dialCorrect) {
+				System.DateTime time = System.DateTime.Now;
+				messageDate.text = time.ToString ("yyyy / M / d");
+			}
+			dialSound.Play ();
+			Invoke ("AutomaticCallEnter", 8.0f);
 		}
 		dialLen = 0;
 		Refresh ();
@@ -170,7 +175,7 @@ public class SmartPhone : MonoBehaviour {
 
 	public void PressCallEnter(){
 		if (currentState == CALLING) {
-			//TODO SOUND OFF
+			dialSound.Stop ();
 			callFinished.SetActive (true);
 			enterButton.SetActive (false);
 			menuButton.SetActive (true);
@@ -178,7 +183,8 @@ public class SmartPhone : MonoBehaviour {
 			Invoke ("CallFinishedOn", 1.0f);
 			Invoke ("CallFinishedOff", 1.5f);
 			Invoke ("CallFinishedOn", 2.0f);
-			if (!messageReceived) {
+			if (!messageReceived && dialCorrect) {
+				messageSound.Play ();
 				messageReceived = true;
 				messageIcon.SetActive (true);
 				messageNumber.SetActive (true);
@@ -191,7 +197,7 @@ public class SmartPhone : MonoBehaviour {
 	// same code with PressCallEnter...
 	public void AutomaticCallEnter(){
 		if (currentState == CALLING) {
-			//TODO SOUND OFF
+			dialSound.Stop ();
 			if (callFinished.activeSelf) return;
 			callFinished.SetActive (true);
 			enterButton.SetActive (false);
@@ -200,7 +206,8 @@ public class SmartPhone : MonoBehaviour {
 			Invoke ("CallFinishedOn", 1.0f);
 			Invoke ("CallFinishedOff", 1.5f);
 			Invoke ("CallFinishedOn", 2.0f);
-			if (!messageReceived) {
+			if (!messageReceived && dialCorrect) {
+				messageSound.Play ();
 				messageReceived = true;
 				messageIcon.SetActive (true);
 				messageNumber.SetActive (true);
