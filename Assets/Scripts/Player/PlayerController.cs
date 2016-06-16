@@ -266,7 +266,6 @@ public class PlayerController : MonoBehaviour {
 						}
 						compassSum += t * coefficient;
 					}
-					compassSum += compassAngle * coefficient;
 					compassIdx = (compassIdx + 1) % BUFFER_SIZE;
 
 					transform.rotation = Quaternion.Euler (0, compassSum, 0);
